@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Get started
-
-1. Install dependencies
+1. **Configurando o Git**
+   - **Nome e Email**: Antes de começar, configure seu nome de usuário e email no Git. Eles serão usados para identificar suas contribuições.
 
    ```bash
-   npm install
+   git config --global user.name "Seu Nome"
+   git config --global user.email "seuemail@example.com"
    ```
 
-2. Start the app
+2. **Clonando o Repositório**
+   - Se você for colaborar em um projeto existente, o primeiro passo é clonar o repositório para sua máquina local.
 
    ```bash
-    npx expo start
+   git clone https://github.com/usuario/repo.git
    ```
 
-In the output, you'll find options to open the app in a
+   - Isso cria uma cópia local do repositório em seu computador.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+3. **Criando uma Nova Branch**
+   - Para evitar conflitos e manter o histórico organizado, é recomendável criar uma nova branch para trabalhar em uma nova feature ou correção de bug.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+   ```bash
+   git checkout -b minha-nova-branch
+   ```
 
-## Get a fresh project
+   - Isso cria e muda para uma nova branch chamada "minha-nova-branch".
 
-When you're ready, run:
+4. **Fazendo Mudanças e Comitando**
+   - Faça as mudanças necessárias no código.
+   - Após as mudanças, adicione os arquivos modificados ao índice com `git add` e crie um commit.
 
-```bash
-npm run reset-project
+   ```bash
+   git add .
+   git commit -m "Descrição das mudanças"
+   ```
+
+5. **Puxando Mudanças da Branch Principal (Main)**
+   - Antes de enviar suas mudanças para o repositório remoto, é importante garantir que sua branch está atualizada com as últimas mudanças da branch principal.
+
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout minha-nova-branch
+   git merge main
+   ```
+
+   - Isso evita conflitos e facilita a integração das mudanças.
+
+6. **Enviando Suas Mudanças para o Repositório Remoto**
+   - Depois de testar suas mudanças e garantir que está tudo funcionando, envie sua branch para o repositório remoto.
+
+   ```bash
+   git push origin minha-nova-branch
+   ```
+
+7. **Criando um Pull Request (PR)**
+   - No GitHub, vá até o repositório e crie um Pull Request (PR) da sua branch para a branch principal (geralmente `main`).
+   - Descreva as mudanças realizadas no PR e peça a revisão de seus colaboradores.
+
+8. **Revisando e Mesclando (Merge)**
+   - Após a revisão, se não houver problemas, o PR será aprovado e mesclado na branch principal.
+   - Caso haja conflitos ou problemas, você pode ser solicitado a corrigir e atualizar o PR.
+
+9. **Mantendo o Repositório Local Atualizado**
+   - Após o merge do PR, volte para a branch principal e puxe as últimas mudanças para manter seu repositório local atualizado.
+
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+
+10. **Deletando a Branch Local e Remota**
+    - Se sua branch não for mais necessária, você pode deletá-la localmente e remotamente.
+
+    ```bash
+    git branch -d minha-nova-branch
+    git push origin --delete minha-nova-branch
+    ```
+
+## Dicas Adicionais
+- **Branch Naming**: Use nomes descritivos para as branches, como `feature/login-page` ou `fix/bug-123`.
+- **Commit Messages**: Escreva mensagens de commit claras e concisas.
+- **Rebase**: Em projetos grandes, o rebase pode ser preferido ao merge para manter o histórico de commits mais limpo.
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

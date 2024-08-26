@@ -1,21 +1,28 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Input, Button } from '@rneui/themed';
 import { useState } from "react";
-import imageUrls from "@/image/imageUrls";
-
-const newTamagotchi = {
-    name: String,
-    imgUrl: String,
-}
+import imageUrls, { ImageSkin } from "@/image/imageUrls";
+import { useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
 
 const Register = () => {
-    const [name, setName] = useState<string>("");
+    const [nickName, setNickName] = useState<string>("");
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-    const urlsArray: string[] = Array.from(imageUrls);
+    const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
-    const registerTamogotchi = () => {
-        console.log({name, urlsArray});        
+    const tamagotchiDatabase = useTamagotchiDatabase();
+
+    async function createTamagotchi() {
+        if(nickName.trim() === "" || selectedIndex === 0) {
+            return Alert.alert("Erro", "Todos os valores devem ser preenchidos");
+        }
+
+        const response = await tamagotchiDatabase.create({nickName, imageId: selectedIndex});
+
+        setNickName("");
+        setSelectedIndex(0);
+
+        Alert.alert(response.insertRowId);
     }
 
     return (
@@ -25,20 +32,20 @@ const Register = () => {
                 placeholderTextColor='#7D0631'
                 inputStyle={styles.input} 
                 inputContainerStyle={styles.inputContainer} 
-                value={name}
-                onChangeText={(text) => setName(text)}
+                value={nickName}
+                onChangeText={(text) => setNickName(text)}
             />
             <View style={styles.grid}>
-                {urlsArray.map((url, index) => (
+                {urlsArray.map((skin) => (
                     <Button
-                        key={index}
+                        key={skin.skinId}
                         buttonStyle={styles.button}
-                        title={<Image source={{ uri: url }} style={styles.image} />}
+                        title={<Image source={{ uri: skin.urlImage }} style={styles.image} />}
                         type="clear" 
-                        onPress={() => setSelectedIndex(index)} 
+                        onPress={() => setSelectedIndex(skin.skinId)} 
                         containerStyle={[
                             styles.buttonContainer,
-                            index === selectedIndex ? styles.selectedButtonContainer : null
+                            skin.skinId === selectedIndex ? styles.selectedButtonContainer : null
                         ]}
                     />
                 ))}
@@ -47,7 +54,7 @@ const Register = () => {
                 size="md"
                 color='#7D0631'
                 buttonStyle={styles.registerButton}
-                onPress={registerTamogotchi}
+                onPress={createTamagotchi}
             > Criar</Button>
         </ScrollView>
     );

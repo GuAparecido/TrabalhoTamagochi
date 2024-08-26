@@ -3,9 +3,14 @@ import { Image, View, StyleSheet } from "react-native";
 import imageUrls from "@/image/imageUrls";
 import { Button } from '@rneui/themed';
 
+interface ImageSkin {
+    skinId: number;
+    urlImage: string;
+}
+
 const Index = () => {
     const router = useRouter();
-    const urlsArray: string[] = Array.from(imageUrls);
+    const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
     return (
         <View style={styles.container}>
@@ -17,10 +22,10 @@ const Index = () => {
             >
                 Criar
             </Button>
-            {urlsArray.map((url, index) => (
+            {urlsArray.map((skin) => (
                 <Image
-                    key={index}
-                    source={{ uri: url }}
+                    key={skin.skinId}
+                    source={{ uri: skin.urlImage }}
                     style={styles.image}
                 />
             ))}

@@ -39,7 +39,8 @@
     "react-native-screens": "3.31.1",
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.10",
-    "sqlite": "^5.1.1"
+    "sqlite": "^5.1.1",
+    "expo-sqlite": "~14.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

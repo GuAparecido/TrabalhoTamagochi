@@ -3,14 +3,15 @@ import { Input, Button } from '@rneui/themed';
 import { useState } from "react";
 import imageUrls, { ImageSkin } from "@/image/imageUrls";
 import { useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
+import { useRouter } from "expo-router";
 
 const Register = () => {
     const [nickName, setNickName] = useState<string>("");
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     const urlsArray: ImageSkin[] = Array.from(imageUrls);
-
     const tamagotchiDatabase = useTamagotchiDatabase();
+    const router = useRouter();
 
     async function createTamagotchi() {
         if(nickName.trim() === "" || selectedIndex === 0) {
@@ -19,10 +20,14 @@ const Register = () => {
 
         const response = await tamagotchiDatabase.create({nickName, imageId: selectedIndex});
 
-        setNickName("");
-        setSelectedIndex(0);
+        if(response.insertRowId == null) {
+            return Alert.alert("Erro", "Erro ao criar tamagotchi");
+        } else {
+            setNickName("");
+            setSelectedIndex(0);
+            router.back();
+        }
 
-        Alert.alert(response.insertRowId);
     }
 
     return (

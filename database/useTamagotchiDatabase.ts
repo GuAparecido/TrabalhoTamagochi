@@ -32,5 +32,31 @@ export function useTamagotchiDatabase () {
         }
     }
 
-    return {create};
+    async function findAll() {
+        try {
+            const query = `SELECT * FROM tamagotchi;`;
+
+            const response = await database.getAllAsync<Tamagotchi>(query);
+
+            return response;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async function findBySearch(search: string) {
+        try {
+            const query = `SELECT * FROM tamagotchi where nickName LIKE ?;`;
+
+            const response = await database.getAllAsync<Tamagotchi>(query, `%${search}%`);
+
+            return response;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    return {create, findAll, findBySearch};
 }

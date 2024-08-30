@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export default function GamesScreen() {
+export default function SleepScreen() {
   const [progress, setProgress] = useState([0, 0, 0, 0, 0, 0]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function GamesScreen() {
       <View style={styles.row}>
         <View style={styles.icons}>
           <Ionicons
-            name="happy"
+            name="moon"
             size={40}
             color="white"
             backgroundColor="#7D3106"

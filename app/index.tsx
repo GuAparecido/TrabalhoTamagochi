@@ -78,7 +78,7 @@ const Index = () => {
                 size="md"
                 color='#7D0631'
                 buttonStyle={styles.registerButton}
-                onPress={() => router.push('/(tabs)/')}
+                onPress={() => router.push('/register')}
                 style={{width: 200}}
             >
                 Novo

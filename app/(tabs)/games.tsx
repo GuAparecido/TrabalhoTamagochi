@@ -3,31 +3,39 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
+import { useGlobalSearchParams } from "expo-router";
+import imageUrls from "@/image/imageUrls";
+
+interface ImageSkin {
+  skinId: number;
+  urlImage: string;
+}
 
 export default function GamesScreen() {
   const [progress, setProgress] = useState([0, 0, 0, 0, 0, 0]);
+  const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
+
+  const idParams = useGlobalSearchParams();
+  const tamagotchiDatabase = useTamagotchiDatabase();
+  const urlsArray: ImageSkin[] = Array.from(imageUrls);
+
+  async function findBydId() {
+    const response = await tamagotchiDatabase.findById(Number(idParams.id));
+
+    if(response) {
+      setTamagotchi(response);
+    }
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = [...prev];
-        const firstZeroIndex = newProgress.indexOf(0);
-        if (firstZeroIndex !== -1) {
-          newProgress[firstZeroIndex] = 1;
-        } else {
-          clearInterval(interval);
-        }
-        return newProgress;
-      });
-    }, 500);
-    return () => clearInterval(interval);
+    findBydId();
   }, []);
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>
       <View style={styles.container}>
-        <Text style={styles.nomeTamagochi}>Nome do bicho</Text>
-        <Text style={styles.tipoTamagochi}>Corinthiano</Text>
+        <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
       </View>
       <View style={styles.row}>
         <View style={styles.icons}>
@@ -57,7 +65,7 @@ export default function GamesScreen() {
         <Image
           style={styles.tamagochi}
           source={{
-            uri: "https://http2.mlstatic.com/D_NQ_NP_698898-MLU74293989152_022024-O.webp",
+            uri: urlsArray.find(image => image.skinId === tamagotchi?.imageId)?.urlImage,
           }}
         />
       </View>

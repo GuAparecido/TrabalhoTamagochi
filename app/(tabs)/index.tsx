@@ -11,7 +11,7 @@ interface ImageSkin {
   urlImage: string;
 }
 
-export default function HomeScreen() {
+export default function index() {
   const [progress, setProgress] = useState([1, 2, 3, 4, 5, 6]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 

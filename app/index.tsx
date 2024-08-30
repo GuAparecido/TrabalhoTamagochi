@@ -44,7 +44,7 @@ const Index = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Input
-                placeholder='Digite o nome do bicho'
+                placeholder='Busque seu Tamagochi'
                 placeholderTextColor='#7D0631'
                 inputStyle={styles.input}
                 inputContainerStyle={styles.inputContainer}
@@ -56,6 +56,7 @@ const Index = () => {
                     <Button
                         key={tamagotchi.id}
                         buttonStyle={styles.button}
+                        // onPress={() => router.push(`/home ${tamagotchi.id}`)} // Atentar ao banco que puxará o id do Tamagochi e trará relacionado ao tamagochi
                         title={
                             <View style={styles.buttonContent}>
                                 <Image source={{ uri: urlsArray.find(image => image.skinId === tamagotchi.imageId)?.urlImage }} style={styles.image} />

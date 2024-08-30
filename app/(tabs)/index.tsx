@@ -1,33 +1,40 @@
 import { Image, StyleSheet, Platform, View, Modal, Text } from "react-native";
+import { Tabs, useGlobalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
+import imageUrls from "@/image/imageUrls";
+interface ImageSkin {
+  skinId: number;
+  urlImage: string;
+}
 
 export default function HomeScreen() {
-  const [progress, setProgress] = useState([0, 0, 0, 0, 0, 0]);
+  const [progress, setProgress] = useState([1, 2, 3, 4, 5, 6]);
+  const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
+
+  const idParams = useGlobalSearchParams();
+  const tamagotchiDatabase = useTamagotchiDatabase();
+  const urlsArray: ImageSkin[] = Array.from(imageUrls);
+
+  async function findBydId() {
+    const response = await tamagotchiDatabase.findById(Number(idParams.id));
+
+    if(response) {
+      setTamagotchi(response);
+    }
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = [...prev];
-        const firstZeroIndex = newProgress.indexOf(0);
-        if (firstZeroIndex !== -1) {
-          newProgress[firstZeroIndex] = 1;
-        } else {
-          clearInterval(interval);
-        }
-        return newProgress;
-      });
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
+    findBydId();
+  }, [])
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>
       <View style={styles.container}>
-        <Text style={styles.nomeTamagochi}>Nome do bicho</Text>
-        <Text style={styles.tipoTamagochi}>Corinthiano</Text>
+        <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
       </View>
       <View style={styles.row}>
         <View style={styles.icons}>
@@ -105,7 +112,7 @@ export default function HomeScreen() {
         <Image
           style={styles.tamagochi}
           source={{
-            uri: "https://http2.mlstatic.com/D_NQ_NP_698898-MLU74293989152_022024-O.webp",
+            uri:  urlsArray.find(image => image.skinId === tamagotchi?.imageId)?.urlImage,
           }}
         />
       </View>
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     height: 32,
     margin: 0,
     padding: 0,
-    backgroundColor: "#7D3106",
+    backgroundColor: "#7D3106"
   },
   barLeft: {
     width: 30,
@@ -168,7 +175,7 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
+    borderBottomLeftRadius: 20
   },
   barRight: {
     width: 30,

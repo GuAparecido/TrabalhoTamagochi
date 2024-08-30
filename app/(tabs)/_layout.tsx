@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useGlobalSearchParams } from "expo-router";
 import React from "react";
 
 import { FontAwesome5 } from "@expo/vector-icons";

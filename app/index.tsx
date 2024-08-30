@@ -64,6 +64,7 @@ const Index = () => {
                             </View>
                         }
                         type="clear"
+                        onPress={() => router.push({pathname:'/(tabs)/', params:{id: tamagotchi.id}})}
                     // containerStyle={[
                     //     styles.buttonContainer,
                     //     skin.skinId === selectedIndex ? styles.selectedButtonContainer : null
@@ -76,7 +77,7 @@ const Index = () => {
                 size="md"
                 color='#7D0631'
                 buttonStyle={styles.registerButton}
-                onPress={() => router.push('/register')}
+                onPress={() => router.push('/(tabs)/')}
                 style={{width: 200}}
             >
                 Novo

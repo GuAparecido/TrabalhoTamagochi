@@ -12,7 +12,7 @@ interface ImageSkin {
 }
 
 export default function index() {
-  const [progress, setProgress] = useState([1, 2, 3, 4, 5, 6]);
+  const [progress, setProgress] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
   const idParams = useGlobalSearchParams();
@@ -52,7 +52,7 @@ export default function index() {
               style={
                 index === 0
                   ? styles.barLeft
-                  : index === 5
+                  : index === 9
                   ? styles.barRight
                   : styles.bar
               }
@@ -76,7 +76,7 @@ export default function index() {
               style={
                 index === 0
                   ? styles.barLeft
-                  : index === 5
+                  : index === 9
                   ? styles.barRight
                   : styles.bar
               }
@@ -100,7 +100,7 @@ export default function index() {
               style={
                 index === 0
                   ? styles.barLeft
-                  : index === 5
+                  : index === 9
                   ? styles.barRight
                   : styles.bar
               }
@@ -158,17 +158,17 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: "contain",
-    marginTop: 10,
+    marginTop: 30,
   },
   bar: {
-    width: 30,
+    width: 26,
     height: 32,
     margin: 0,
     padding: 0,
     backgroundColor: "#7D3106"
   },
   barLeft: {
-    width: 30,
+    width: 26,
     height: 32,
     borderRadius: 2,
     margin: 0,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20
   },
   barRight: {
-    width: 30,
+    width: 26,
     height: 32,
     borderRadius: 2,
     margin: 0,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   loadingContainer: {
-    width: 200,
+    width: 300,
     height: 40,
     flexDirection: "row",
     justifyContent: "space-between",

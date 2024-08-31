@@ -4,8 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
-import { useGlobalSearchParams } from "expo-router";
+import { router, useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
+import { Button } from "@rneui/base";
 
 interface ImageSkin {
   skinId: number;
@@ -13,7 +14,7 @@ interface ImageSkin {
 }
 
 export default function ComerScreen() {
-  const [progress, setProgress] = useState([0, 0, 0, 0, 0, 0]);
+  const [progress, setProgress] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
@@ -54,7 +55,7 @@ export default function ComerScreen() {
               style={
                 index === 0
                   ? styles.barLeft
-                  : index === 5
+                  : index === 9
                   ? styles.barRight
                   : styles.bar
               }
@@ -70,6 +71,16 @@ export default function ComerScreen() {
           }}
         />
       </View>
+      <View style={styles.center}>
+        <Button style={styles.icons} type="clear" onPress={() => {}}>
+          <Ionicons
+            name="pizza"
+            size={40}
+            color="white"
+            backgroundColor="#7D3106"
+          />
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -78,6 +89,10 @@ const styles = StyleSheet.create({
   safeViewContainer: {
     flex: 1,
     backgroundColor: "#A2CCA5",
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
     justifyContent: "flex-end",
@@ -112,17 +127,19 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: "contain",
-    marginTop: 10,
+    marginTop: 50,
+    marginBottom: 50,
+    
   },
   bar: {
-    width: 30,
+    width: 26,
     height: 32,
     margin: 0,
     padding: 0,
     backgroundColor: "#7D3106",
   },
   barLeft: {
-    width: 30,
+    width: 26,
     height: 32,
     borderRadius: 2,
     margin: 0,
@@ -132,7 +149,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
   },
   barRight: {
-    width: 30,
+    width: 26,
     height: 32,
     borderRadius: 2,
     margin: 0,
@@ -142,7 +159,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   loadingContainer: {
-    width: 200,
+    width: 300,
     height: 40,
     flexDirection: "row",
     justifyContent: "space-between",

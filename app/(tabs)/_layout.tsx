@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useGlobalSearchParams } from "expo-router";
 import React from "react";
 
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -25,7 +25,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesome

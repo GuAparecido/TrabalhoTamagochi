@@ -47,7 +47,7 @@ export function useTamagotchiDatabase () {
 
     async function findBySearch(search: string) {
         try {
-            const query = `SELECT * FROM tamagotchi where nickName LIKE ?;`;
+            const query = `SELECT * FROM tamagotchi WHERE nickName LIKE ?;`;
 
             const response = await database.getAllAsync<Tamagotchi>(query, `%${search}%`);
 
@@ -58,5 +58,17 @@ export function useTamagotchiDatabase () {
         }
     }
 
-    return {create, findAll, findBySearch};
+    async function findById(id:number) {
+        try {
+            const query = `SELECT * FROM tamagotchi WHERE id = ?;`;
+
+            const response = await database.getFirstAsync<Tamagotchi>(query, id);
+
+            return response;
+        } catch (error) {
+            
+        }
+    }
+
+    return {create, findAll, findBySearch, findById};
 }

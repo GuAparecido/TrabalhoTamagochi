@@ -4,15 +4,19 @@ export type Tamagotchi = {
     id: number;
     nickName: string;
     imageId: number;
+    counterFun : number;
+    counterSleep : number;
+    counterHunger : number;
 }
 
 export function useTamagotchiDatabase () {
 
     const database = useSQLiteContext();
 
-    async function create(data:Omit<Tamagotchi, 'id'>) {
+    async function create(data:Omit<Tamagotchi, 'id' | 'counterFun' | 'counterSleep' | 'counterHunger'>) {
         const statement = await database.prepareAsync(`
-            INSERT INTO tamagotchi (nickName, imageId) VALUES ($nickName, $imageId);    
+            INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun) 
+            VALUES ($nickName, $imageId, 10, 60, 100);    
         `);
 
         try {
@@ -66,7 +70,7 @@ export function useTamagotchiDatabase () {
 
             return response;
         } catch (error) {
-            
+            throw error;
         }
     }
 

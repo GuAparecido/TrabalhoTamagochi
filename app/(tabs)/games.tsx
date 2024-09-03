@@ -13,8 +13,13 @@ interface ImageSkin {
   urlImage: string;
 }
 
+type bar = {
+  position: number;
+  isVisible: boolean;
+}
+
 export default function GamesScreen() {
-  const [progress, setProgress] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  const [barFun, setBarFun] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
   const idParams = useGlobalSearchParams();
@@ -22,16 +27,51 @@ export default function GamesScreen() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
-    const response = await tamagotchiDatabase.findById(Number(idParams.id));
+    const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
+      const bars: bar[] = [];
       setTamagotchi(response);
+      populateBar(response);
+    }
+  }
+
+  function populateBar(response: Tamagotchi) {
+    const fun: bar[] = [];
+
+    if (response) {
+        for (let i = 1; i <= 10; i++) {
+            fun.push({ position: i, isVisible: i <= (response.counterFun/10) });
+        }
+        
+        setBarFun(fun);
+    }
+}
+
+
+  function getBarStyle (fun: bar) {
+    if (fun.isVisible) {
+      if (fun.position === 1) {
+        return styles.barLeft;
+      } else if (fun.position === 10) {
+        return styles.barRight;
+      } else {
+        return styles.bar;
+      }
+    } else {
+      if (fun.position === 1) {
+        return styles.barLeftNone;
+      } else if (fun.position === 10) {
+        return styles.barRightNone;
+      } else {
+        return styles.barNone;
+      }
     }
   }
 
   useEffect(() => {
     findBydId();
-  }, []);
+  }, [])
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>
@@ -47,20 +87,16 @@ export default function GamesScreen() {
             backgroundColor="#7D3106"
           />
         </View>
+      <View style={styles.row}>
         <View style={styles.loadingContainer}>
-          {progress.map((fill, index) => (
+        {barFun.map((fun) => (
             <View
-              key={index}
-              style={
-                index === 0
-                  ? styles.barLeft
-                  : index === 9
-                  ? styles.barRight
-                  : styles.bar
-              }
+              key={fun.position}
+              style={getBarStyle(fun)}
             />
           ))}
         </View>
+      </View>
       </View>
       <View style={styles.container}>
         <Image
@@ -131,13 +167,44 @@ const styles = StyleSheet.create({
     
   },
   bar: {
+    marginLeft: 2,
     width: 26,
-    height: 32,
+    height: 30,
     margin: 0,
     padding: 0,
     backgroundColor: "#7D3106",
   },
   barLeft: {
+    marginLeft: 2,
+    width: 26,
+    height: 30,
+    borderRadius: 2,
+    margin: 0,
+    padding: 0,
+    backgroundColor: "#7D3106",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20
+  },
+  barRight: {
+    marginLeft: 2,
+    width: 26,
+    height: 30,
+    borderRadius: 2,
+    margin: 0,
+    padding: 0,
+    backgroundColor: "#7D3106",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  barNone: {
+    width: 26,
+    height: 32,
+    margin: 0,
+    padding: 0,
+    backgroundColor: "#7D3106",
+    display: "none"
+  },
+  barLeftNone: {
     width: 26,
     height: 32,
     borderRadius: 2,
@@ -146,8 +213,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
+    display: "none",
   },
-  barRight: {
+  barRightNone: {
     width: 26,
     height: 32,
     borderRadius: 2,
@@ -156,12 +224,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
+    display: "none",
   },
   loadingContainer: {
-    width: 300,
+    width: 290,
     height: 40,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#FBAC5C",
     padding: 2,

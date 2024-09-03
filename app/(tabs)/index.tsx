@@ -18,7 +18,6 @@ type bar = {
 
 export default function index() {
 
-  const [progress, setProgress] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [barFun, setBarFun] = useState<bar[]>([]);
   const [barHunger, setBarHunger] = useState<bar[]>([]);
   const [barSleep, setBarSleep] = useState<bar[]>([]);
@@ -34,7 +33,6 @@ export default function index() {
     if(response) {
       const bars: bar[] = [];
       setTamagotchi(response);
-      console.log(tamagotchi);
       populateBar(response);
     }
   }
@@ -80,7 +78,7 @@ export default function index() {
 
   useEffect(() => {
     findBydId();
-  }, [])
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>

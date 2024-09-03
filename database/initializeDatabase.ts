@@ -8,7 +8,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             imageId INTEGER NOT NULL,
             counterFun INTEGER,
             counterSleep INTEGER,
-            counterHunger INTEGER
+            counterHunger INTEGER,
+            counterStatus INTEGER
         );    
     `);
 
@@ -31,5 +32,9 @@ export async function initializeDatabase(database: SQLiteDatabase) {
 
     // await database.execAsync(`
     //     ALTER TABLE tamagotchi ADD COLUMN counterHunger INTEGER DEFAULT 0;
+    // `);
+
+    // await database.execAsync(`
+    //     ALTER TABLE tamagotchi ADD COLUMN counterStatus INTEGER DEFAULT 0;
     // `);
 }

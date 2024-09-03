@@ -26,10 +26,10 @@ export default function SleepScreen() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
+    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
-      const bars: bar[] = [];
       setTamagotchi(response);
       populateBar(response);
     }

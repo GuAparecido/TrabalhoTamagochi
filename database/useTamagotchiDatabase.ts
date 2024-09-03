@@ -7,16 +7,17 @@ export type Tamagotchi = {
     counterFun : number;
     counterSleep : number;
     counterHunger : number;
+    counterStatus: number;
 }
 
 export function useTamagotchiDatabase () {
 
     const database = useSQLiteContext();
 
-    async function create(data:Omit<Tamagotchi, 'id' | 'counterFun' | 'counterSleep' | 'counterHunger'>) {
+    async function create(data:Omit<Tamagotchi, 'id' | 'counterFun' | 'counterSleep' | 'counterHunger' | 'counterStatus'>) {
         const statement = await database.prepareAsync(`
-            INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun) 
-            VALUES ($nickName, $imageId, 10, 60, 100);    
+            INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun, counterStatus) 
+            VALUES ($nickName, $imageId, 10, 60, 100, 200);    
         `);
 
         try {
@@ -74,5 +75,32 @@ export function useTamagotchiDatabase () {
         }
     }
 
-    return {create, findAll, findBySearch, findById};
+    async function updateCounterStatus(id: number) {
+
+        const response = await findById(id);
+
+        let newCounterStatus = 0;
+
+        if(response) {
+            newCounterStatus = response?.counterFun + response?.counterHunger + response?.counterSleep;
+        }
+
+        const statement = await database.prepareAsync(`
+            UPDATE tamagotchi SET counterStatus = $counterStatus WHERE id = $id
+        `);
+
+        try {
+            const result = await statement.executeAsync({
+                $counterStatus: newCounterStatus,
+                $id: id
+            });
+
+        } catch (error) {
+            throw error;
+        } finally {
+            await statement.finalizeAsync();
+        }
+    }
+
+    return {create, findAll, findBySearch, findById, updateCounterStatus};
 }

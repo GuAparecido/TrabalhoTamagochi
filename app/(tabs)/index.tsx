@@ -28,10 +28,10 @@ export default function index() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
+    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
-      const bars: bar[] = [];
       setTamagotchi(response);
       populateBar(response);
     }
@@ -54,7 +54,6 @@ export default function index() {
         setBarHunger(hunger);
     }
 }
-
 
   function getBarStyle (fun: bar) {
     if (fun.isVisible) {
@@ -83,7 +82,7 @@ export default function index() {
   return (
     <SafeAreaView style={styles.safeViewContainer}>
       <View style={styles.container}>
-        <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
+        <Text style={styles.nomeTamagochi}>{tamagotchi?.counterStatus}</Text>
       </View>
 
       {/* BAR FUN */}

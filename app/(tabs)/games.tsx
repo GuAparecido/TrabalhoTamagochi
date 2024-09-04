@@ -7,6 +7,7 @@ import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatab
 import { router, useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
+import BarFun from "@/components/BarFun";
 
 interface ImageSkin {
   skinId: number;
@@ -48,27 +49,6 @@ export default function GamesScreen() {
     }
 }
 
-
-  function getBarStyle (fun: bar) {
-    if (fun.isVisible) {
-      if (fun.position === 1) {
-        return styles.barLeft;
-      } else if (fun.position === 10) {
-        return styles.barRight;
-      } else {
-        return styles.bar;
-      }
-    } else {
-      if (fun.position === 1) {
-        return styles.barLeftNone;
-      } else if (fun.position === 10) {
-        return styles.barRightNone;
-      } else {
-        return styles.barNone;
-      }
-    }
-  }
-
   useEffect(() => {
     findBydId();
   }, [])
@@ -78,7 +58,8 @@ export default function GamesScreen() {
       <View style={styles.container}>
         <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
       </View>
-      <View style={styles.row}>
+      <BarFun />
+      {/* <View style={styles.row}>
         <View style={styles.icons}>
           <Ionicons
             name="happy"
@@ -97,7 +78,7 @@ export default function GamesScreen() {
           ))}
         </View>
       </View>
-      </View>
+      </View> */}
       <View style={styles.container}>
         <Image
           style={styles.tamagochi}
@@ -165,76 +146,5 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 50,
     
-  },
-  bar: {
-    marginLeft: 2,
-    width: 26,
-    height: 30,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-  },
-  barLeft: {
-    marginLeft: 2,
-    width: 26,
-    height: 30,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20
-  },
-  barRight: {
-    marginLeft: 2,
-    width: 26,
-    height: 30,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  barNone: {
-    width: 26,
-    height: 32,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-    display: "none"
-  },
-  barLeftNone: {
-    width: 26,
-    height: 32,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-    display: "none",
-  },
-  barRightNone: {
-    width: 26,
-    height: 32,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
-    backgroundColor: "#7D3106",
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    display: "none",
-  },
-  loadingContainer: {
-    width: 290,
-    height: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FBAC5C",
-    padding: 2,
-    borderRadius: 20,
-    borderColor: "#7D3106",
-    borderWidth: 2,
   },
 });

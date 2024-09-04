@@ -8,6 +8,9 @@ import {
 } from "@/database/useTamagotchiDatabase";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
+import BarFun from "@/components/BarFun";
+import BarSleep from "@/components/BarSleep";
+import BarHunger from "@/components/BarHunger";
 
 interface ImageSkin {
   skinId: number;
@@ -94,6 +97,16 @@ const Index = () => {
         onChangeText={setSearch}
       />
 
+      <Button
+        size="md"
+        color="#7D0631"
+        buttonStyle={styles.registerButton}
+        onPress={() => router.push("/register")}
+        style={{ width: 200 }}
+      >
+        Novo
+      </Button>
+
       <View style={styles.grid}>
         {tamagotchis.map((tamagotchi) => (
           <Button
@@ -115,6 +128,11 @@ const Index = () => {
                 <Text style={textStyle(tamagotchi.counterStatus)}>
                   {statusTamagotchi(tamagotchi.counterStatus)}
                 </Text>
+                <View style = {styles.bars}>
+                  <BarFun />
+                  <BarSleep/>
+                  <BarHunger/>
+                </View>
               </View>
             }
             type="clear"
@@ -127,16 +145,6 @@ const Index = () => {
           />
         ))}
       </View>
-
-      <Button
-        size="md"
-        color="#7D0631"
-        buttonStyle={styles.registerButton}
-        onPress={() => router.push("/register")}
-        style={{ width: 200 }}
-      >
-        Novo
-      </Button>
     </ScrollView>
   );
 };
@@ -149,6 +157,13 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
   },
+  bars: {
+    height: 120,
+    width: 120,
+    margin: 0,
+    padding: 0,
+    alignItems: 'center'
+  },
   registerbutton: {
     width: 200,
     marginTop: 30,
@@ -160,7 +175,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#7D0631",
     borderBottomWidth: 2,
   },
-
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -172,8 +186,8 @@ const styles = StyleSheet.create({
     borderColor: "#7D0631",
     borderWidth: 2,
     backgroundColor: "rgba(125, 6, 49, 0.3)",
-    width: 150,
-    height: 150,
+    width: 300,
+    height: 600,
   },
   buttonContainer: {
     width: 150,

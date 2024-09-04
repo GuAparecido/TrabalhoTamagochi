@@ -1,8 +1,19 @@
-import { Image, StyleSheet, Platform, View, Text } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  View,
+  Text,
+  Modal,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
+import {
+  Tamagotchi,
+  useTamagotchiDatabase,
+} from "@/database/useTamagotchiDatabase";
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
@@ -14,22 +25,32 @@ interface ImageSkin {
 type bar = {
   position: number;
   isVisible: boolean;
-}
+};
 
 export default function SleepScreen() {
   const [barSleep, setBarSleep] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
   const [isSleeping, setIsSleeping] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const idParams = useGlobalSearchParams();
   const tamagotchiDatabase = useTamagotchiDatabase();
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
-  async function findBydId() {
-    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
-    const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
+  const toggleModal = () => {
+    setIsSleeping((prev) => !prev);
+    setIsVisible(!isVisible);
+  };
 
-    if(response) {
+  async function findBydId() {
+    await tamagotchiDatabase.updateCounterStatus(
+      Number(idParams.id ? idParams.id : 1)
+    );
+    const response = await tamagotchiDatabase.findById(
+      Number(idParams.id ? idParams.id : 1)
+    );
+
+    if (response) {
       setTamagotchi(response);
       populateBar(response);
     }
@@ -39,16 +60,15 @@ export default function SleepScreen() {
     const sleep: bar[] = [];
 
     if (response) {
-        for (let i = 1; i <= 10; i++) {
-            sleep.push({ position: i, isVisible: i <= (response.counterSleep/10) });
-        }
-        
-        setBarSleep(sleep);
+      for (let i = 1; i <= 10; i++) {
+        sleep.push({ position: i, isVisible: i <= response.counterSleep / 10 });
+      }
+
+      setBarSleep(sleep);
     }
-}
+  }
 
-
-  function getBarStyle (fun: bar) {
+  function getBarStyle(fun: bar) {
     if (fun.isVisible) {
       if (fun.position === 1) {
         return styles.barLeft;
@@ -70,9 +90,11 @@ export default function SleepScreen() {
 
   useEffect(() => {
     findBydId();
-  }, [])
+  }, []);
 
-  const backgroundStyle = isSleeping ? styles.safeViewContainerDormir : styles.safeViewContainer;
+  const backgroundStyle = isSleeping
+    ? styles.safeViewContainerDormir
+    : styles.safeViewContainer;
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -89,11 +111,8 @@ export default function SleepScreen() {
           />
         </View>
         <View style={styles.loadingContainer}>
-        {barSleep.map((sleep) => (
-            <View
-              key={sleep.position}
-              style={getBarStyle(sleep)}
-            />
+          {barSleep.map((sleep) => (
+            <View key={sleep.position} style={getBarStyle(sleep)} />
           ))}
         </View>
       </View>
@@ -101,12 +120,13 @@ export default function SleepScreen() {
         <Image
           style={styles.tamagochi}
           source={{
-            uri: urlsArray.find(image => image.skinId === tamagotchi?.imageId)?.urlImage,
+            uri: urlsArray.find((image) => image.skinId === tamagotchi?.imageId)
+              ?.urlImage,
           }}
         />
       </View>
       <View style={styles.center}>
-        <Button style={styles.icons} type="clear" onPress={() => setIsSleeping(prev => !prev)}>
+        <Button style={styles.icons} type="clear" onPress={toggleModal}>
           <Ionicons
             name="bed"
             size={40}
@@ -114,6 +134,18 @@ export default function SleepScreen() {
             backgroundColor="#7D3106"
           />
         </Button>
+        <Modal
+          transparent={true}
+          visible={isVisible}
+          animationType="fade"
+          onRequestClose={toggleModal}
+        >
+          <TouchableWithoutFeedback onPress={toggleModal}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}></View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
       </View>
     </SafeAreaView>
   );
@@ -126,11 +158,27 @@ const styles = StyleSheet.create({
   },
   safeViewContainerDormir: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: "#A2CCA5",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.9)", // Sombra preta transparente
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "black",
+    borderRadius: 10,
+    display: "none",
+  },
+  text: {
+    textAlign: "center",
   },
   center: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     justifyContent: "flex-end",
@@ -167,7 +215,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginTop: 50,
     marginBottom: 50,
-    
   },
   bar: {
     marginLeft: 2,
@@ -186,7 +233,7 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20
+    borderBottomLeftRadius: 20,
   },
   barRight: {
     marginLeft: 2,
@@ -205,7 +252,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     backgroundColor: "#7D3106",
-    display: "none"
+    display: "none",
   },
   barLeftNone: {
     width: 26,

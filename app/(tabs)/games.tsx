@@ -2,21 +2,25 @@ import { Image, StyleSheet, Platform, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
+import {
+  Tamagotchi,
+  useTamagotchiDatabase,
+} from "@/database/useTamagotchiDatabase";
 import { router, useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
+import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
   urlImage: string;
+  urlTama: string;
 }
 
 type bar = {
   position: number;
   isVisible: boolean;
-}
+};
 
 export default function GamesScreen() {
   const [barFun, setBarFun] = useState<bar[]>([]);
@@ -27,10 +31,14 @@ export default function GamesScreen() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
-    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
-    const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
+    await tamagotchiDatabase.updateCounterStatus(
+      Number(idParams.id ? idParams.id : 1)
+    );
+    const response = await tamagotchiDatabase.findById(
+      Number(idParams.id ? idParams.id : 1)
+    );
 
-    if(response) {
+    if (response) {
       setTamagotchi(response);
       populateBar(response);
     }
@@ -40,45 +48,40 @@ export default function GamesScreen() {
     const fun: bar[] = [];
 
     if (response) {
-        for (let i = 1; i <= 10; i++) {
-            fun.push({ position: i, isVisible: i <= (response.counterFun/10) });
-        }
-        
-        setBarFun(fun);
-    }
-}
-
-
-  function getBarStyle (fun: bar) {
-    if (fun.isVisible) {
-      if (fun.position === 1) {
-        return styles.barLeft;
-      } else if (fun.position === 10) {
-        return styles.barRight;
-      } else {
-        return styles.bar;
+      for (let i = 1; i <= 10; i++) {
+        fun.push({ position: i, isVisible: i <= response.counterFun / 10 });
       }
-    } else {
-      if (fun.position === 1) {
-        return styles.barLeftNone;
-      } else if (fun.position === 10) {
-        return styles.barRightNone;
-      } else {
-        return styles.barNone;
-      }
+
+      setBarFun(fun);
     }
   }
 
   useEffect(() => {
     findBydId();
-  }, [])
+  }, []);
+
+  if (!tamagotchi) {
+    return (
+      <SafeAreaView style={styles.safeViewContainer}>
+        <View style={styles.container}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>
       <View style={styles.container}>
         <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
       </View>
-      <View style={styles.row}>
+      <Bars
+        counterFun={tamagotchi.counterFun}
+        icon="happy"
+        size={30}
+        styles={stylesComponent}
+      />
+      {/* <View style={styles.row}>
         <View style={styles.icons}>
           <Ionicons
             name="happy"
@@ -97,134 +100,101 @@ export default function GamesScreen() {
           ))}
         </View>
       </View>
-      </View>
-      <View style={styles.container}>
-        <Image
-          style={styles.tamagochi}
-          source={{
-            uri: urlsArray.find(image => image.skinId === tamagotchi?.imageId)?.urlImage,
-          }}
-        />
-      </View>
+      </View> */}
       <View style={styles.center}>
-        <Button style={styles.icons} type="clear" onPress={() => router.push('/jogos')}>
+        <Button
+          style={styles.icons}
+          type="clear"
+          onPress={() => router.push("/jogos")}
+        >
           <Ionicons
             name="dice"
-            size={40}
+            size={30}
             color="white"
             backgroundColor="#7D3106"
           />
         </Button>
       </View>
+      <View style={styles.container}>
+        <Image
+          style={styles.tamagochi}
+          source={(() => {
+            const image = urlsArray.find(
+              (img) => img.skinId === tamagotchi.imageId
+            )?.urlTama;
+
+            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
+            if (typeof image === "string") {
+              return { uri: image }; // Para URLs remotas
+            } else if (typeof image === "number") {
+              return image; // Para imagens locais
+            }
+            return undefined; // Caso não encontre a imagem
+          })()}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  safeViewContainer: {
-    flex: 1,
-    backgroundColor: "#A2CCA5",
-  },
-  container: {
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  nomeTamagochi: {
-    fontSize: 40,
-    color: "#7D3106",
-    fontWeight: "bold",
-    marginTop: 40,
-    marginBottom: 10,
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+const stylesComponent = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
   },
-  tipoTamagochi: {
-    fontSize: 18,
-    color: "#ffff",
-  },
   icons: {
     backgroundColor: "#7D3106",
-    width: 60,
-    height: 60,
-    borderRadius: 40,
+    width: 40,
+    height: 40,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     margin: 10,
-  },
-  tamagochi: {
-    width: 300,
-    height: 300,
-    resizeMode: "contain",
-    marginTop: 50,
-    marginBottom: 50,
-    
+    marginLeft: 20,
   },
   bar: {
     marginLeft: 2,
     width: 26,
     height: 30,
-    margin: 0,
-    padding: 0,
     backgroundColor: "#7D3106",
   },
   barLeft: {
     marginLeft: 2,
     width: 26,
     height: 30,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20
+    borderBottomLeftRadius: 20,
   },
   barRight: {
     marginLeft: 2,
     width: 26,
     height: 30,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
   },
   barNone: {
     width: 26,
-    height: 32,
-    margin: 0,
-    padding: 0,
+    height: 30,
     backgroundColor: "#7D3106",
-    display: "none"
+    opacity: 0.2, // Usando opacidade em vez de display: none
   },
   barLeftNone: {
     width: 26,
-    height: 32,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
+    height: 30,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none",
+    opacity: 0.2, // Usando opacidade em vez de display: none
   },
   barRightNone: {
     width: 26,
-    height: 32,
-    borderRadius: 2,
-    margin: 0,
-    padding: 0,
+    height: 30,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    display: "none",
+    opacity: 0.2,
   },
   loadingContainer: {
     width: 290,
@@ -236,5 +206,50 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "#7D3106",
     borderWidth: 2,
+  },
+});
+
+const styles = StyleSheet.create({
+  safeViewContainer: {
+    flex: 1,
+    backgroundColor: "#A2CCA5",
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  nomeTamagochi: {
+    fontSize: 40,
+    color: "#7D3106",
+    fontWeight: "bold",
+    marginTop: 10,
+    marginLeft: 12,
+    marginBottom: 10,
+  },
+  icons: {
+    backgroundColor: "#7D3106",
+    width: 48,
+    height: 48,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  tamagochi: {
+    width: 500,
+    height: 500,
+    marginLeft: 30,
+    marginTop: 20,
+    resizeMode: "contain",
+  },
+  loadingText: {
+    fontSize: 24,
+    color: "#7D3106",
+    fontWeight: "bold",
   },
 });

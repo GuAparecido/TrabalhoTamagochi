@@ -52,12 +52,12 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     //     DELETE FROM tamagotchi;    
     // `);
 
-    // const staticDate = '2024-09-05 11:44:18';
+    // const staticDate = '2024-09-05 8:44:18';
 
     // // Consulta SQL direta
     // const query = `
     //     UPDATE tamagotchi 
-    //     SET dateHunger = '${staticDate}' 
+    //     SET dateSleep = '${staticDate}' 
     // `;
 
     // await database.execAsync(query);

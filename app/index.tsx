@@ -202,7 +202,7 @@ const stylesComponent = StyleSheet.create({
     width: 15,
     height: 30,
     backgroundColor: "#7D3106",
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", // Usando opacidade em vez de display: none
   },
   barLeftNone: {
     width: 15,
@@ -210,7 +210,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", // Usando opacidade em vez de display: none
   },
   barRightNone: {
     width: 15,
@@ -218,7 +218,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    opacity: 0.2,
+    display: "none",
   },
   loadingContainer: {
     width: 180,

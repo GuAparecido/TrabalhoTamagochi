@@ -27,10 +27,11 @@ export default function Index() {
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi | undefined>();
 
   const idParams = useGlobalSearchParams();
+  console.log(idParams.id);
   const tamagotchiDatabase = useTamagotchiDatabase();
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
-  async function findBydId() {
+  async function findById() {
     await tamagotchiDatabase.calculateAtributes();
     await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
@@ -161,7 +162,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", // Usando opacidade em vez de display: none
   },
   barLeftNone: {
     width: 26,
@@ -169,7 +170,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", // Usando opacidade em vez de display: none
   },
   barRightNone: {
     width: 26,
@@ -177,7 +178,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    opacity: 0.2,
+    display: "none",
   },
   loadingContainer: {
     width: 290,

@@ -7,10 +7,8 @@ import {
   useTamagotchiDatabase,
 } from "@/database/useTamagotchiDatabase";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
-import BarFun from "@/components/BarFun";
-import BarSleep from "@/components/BarSleep";
-import BarHunger from "@/components/BarHunger";
+import { useCallback, useState } from "react";
+import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
@@ -125,14 +123,29 @@ const Index = () => {
                 />
                 <View style={styles.divider} />
                 <Text style={styles.buttonText}>{tamagotchi.nickName}</Text>
+                <Bars
+                  counterFun={tamagotchi.counterFun}
+                  icon="happy"
+                  size={20}
+                  styles={stylesComponent}
+                />
+                {/* BAR HUNGER */}
+                <Bars
+                  counterFun={tamagotchi.counterHunger}
+                  icon="pizza"
+                  size={20}
+                  styles={stylesComponent}
+                />
+                {/* BAR SLEEP */}
+                <Bars
+                  counterFun={tamagotchi.counterSleep}
+                  icon="moon"
+                  size={20}
+                  styles={stylesComponent}
+                />
                 <Text style={textStyle(tamagotchi.counterStatus)}>
                   {statusTamagotchi(tamagotchi.counterStatus)}
                 </Text>
-                <View style = {styles.bars}>
-                  <BarFun />
-                  <BarSleep/>
-                  <BarHunger/>
-                </View>
               </View>
             }
             type="clear"
@@ -149,6 +162,77 @@ const Index = () => {
   );
 };
 
+const stylesComponent = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icons: {
+    backgroundColor: "#7D3106",
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+  },
+  bar: {
+    marginLeft: 2,
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+  },
+  barLeft: {
+    marginLeft: 2,
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+  },
+  barRight: {
+    marginLeft: 2,
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  barNone: {
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+    opacity: 0.2, // Usando opacidade em vez de display: none
+  },
+  barLeftNone: {
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    opacity: 0.2, // Usando opacidade em vez de display: none
+  },
+  barRightNone: {
+    width: 15,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    opacity: 0.2,
+  },
+  loadingContainer: {
+    width: 180,
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FBAC5C",
+    padding: 2,
+    borderRadius: 16,
+    borderColor: "#7D3106",
+    borderWidth: 2,
+  },
+});
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -162,7 +246,7 @@ const styles = StyleSheet.create({
     width: 120,
     margin: 0,
     padding: 0,
-    alignItems: 'center'
+    alignItems: "center",
   },
   registerbutton: {
     width: 200,

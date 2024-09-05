@@ -17,10 +17,12 @@ import {
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
-import BarSleep from "@/components/BarSleep";
+import Bar from "@/components/Bars";
+import Bars from "@/components/Bars";
 interface ImageSkin {
   skinId: number;
   urlImage: string;
+  urlTama: string;
 }
 
 type bar = {
@@ -73,6 +75,16 @@ export default function SleepScreen() {
     findBydId();
   }, []);
 
+  if (!tamagotchi) {
+    return (
+      <SafeAreaView style={styles.safeViewContainer}>
+        <View style={styles.container}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   const backgroundStyle = isSleeping
     ? styles.safeViewContainerDormir
     : styles.safeViewContainer;
@@ -82,7 +94,12 @@ export default function SleepScreen() {
       <View style={styles.container}>
         <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
       </View>
-      <BarSleep />
+      <Bars
+        counterFun={tamagotchi.counterSleep}
+        icon="moon"
+        size={30}
+        styles={stylesComponent}
+      />
       {/* <View style={styles.row}>
         <View style={styles.icons}>
           <Ionicons
@@ -98,40 +115,125 @@ export default function SleepScreen() {
           ))}
         </View>
       </View> */}
-      <View style={styles.container}>
-        <Image
-          style={styles.tamagochi}
-          source={{
-            uri: urlsArray.find((image) => image.skinId === tamagotchi?.imageId)
-              ?.urlImage,
-          }}
-        />
-      </View>
       <View style={styles.center}>
         <Button style={styles.icons} type="clear" onPress={toggleModal}>
           <Ionicons
             name="bed"
-            size={40}
+            size={30}
             color="white"
             backgroundColor="#7D3106"
           />
         </Button>
-        <Modal
-          transparent={true}
-          visible={isVisible}
-          animationType="fade"
-          onRequestClose={toggleModal}
-        >
-          <TouchableWithoutFeedback onPress={toggleModal}>
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContent}></View>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
       </View>
+      <View style={styles.container}>
+        <Image
+          style={styles.tamagochi}
+          source={(() => {
+            const image = urlsArray.find(
+              (img) => img.skinId === tamagotchi.imageId
+            )?.urlTama;
+
+            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
+            if (typeof image === "string") {
+              return { uri: image }; // Para URLs remotas
+            } else if (typeof image === "number") {
+              return image; // Para imagens locais
+            }
+            return undefined; // Caso não encontre a imagem
+          })()}
+          // source={{
+          //   uri: urlsArray.find((image) => image.skinId === tamagotchi?.imageId)
+          //     ?.urlImage,
+          // }}
+        />
+      </View>
+      <Modal
+        transparent={true}
+        visible={isVisible}
+        animationType="fade"
+        onRequestClose={toggleModal}
+      >
+        <TouchableWithoutFeedback onPress={toggleModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}></View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }
+
+const stylesComponent = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icons: {
+    backgroundColor: "#7D3106",
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    marginLeft: 20,
+  },
+  bar: {
+    marginLeft: 2,
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+  },
+  barLeft: {
+    marginLeft: 2,
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+  },
+  barRight: {
+    marginLeft: 2,
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  barNone: {
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+    opacity: 0.2, // Usando opacidade em vez de display: none
+  },
+  barLeftNone: {
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    opacity: 0.2, // Usando opacidade em vez de display: none
+  },
+  barRightNone: {
+    width: 26,
+    height: 30,
+    backgroundColor: "#7D3106",
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    opacity: 0.2,
+  },
+  loadingContainer: {
+    width: 290,
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FBAC5C",
+    padding: 2,
+    borderRadius: 20,
+    borderColor: "#7D3106",
+    borderWidth: 2,
+  },
+});
 
 const styles = StyleSheet.create({
   safeViewContainer: {
@@ -144,7 +246,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.9)", // Sombra preta transparente
+    backgroundColor: "rgba(0, 0, 0, 0.8)", // Sombra preta transparente
     justifyContent: "center",
     alignItems: "center",
   },
@@ -154,9 +256,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderRadius: 10,
     display: "none",
-  },
-  text: {
-    textAlign: "center",
   },
   center: {
     justifyContent: "center",
@@ -171,31 +270,29 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#7D3106",
     fontWeight: "bold",
-    marginTop: 40,
+    marginTop: 10,
+    marginLeft: 12,
     marginBottom: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  tipoTamagochi: {
-    fontSize: 18,
-    color: "#ffff",
   },
   icons: {
     backgroundColor: "#7D3106",
-    width: 60,
-    height: 60,
+    width: 48,
+    height: 48,
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginTop: 30,
   },
   tamagochi: {
-    width: 300,
-    height: 300,
+    width: 500,
+    height: 500,
+    marginLeft: 30,
+    marginTop: 20,
     resizeMode: "contain",
-    marginTop: 50,
-    marginBottom: 50,
+  },
+  loadingText: {
+    fontSize: 24,
+    color: "#7D3106",
+    fontWeight: "bold",
   },
 });

@@ -9,7 +9,9 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             counterFun INTEGER,
             counterSleep INTEGER,
             counterHunger INTEGER,
-            counterStatus INTEGER
+            counterStatus INTEGER,
+            dateSleep DATETIME,
+            dateHunger DATETIME
         );    
     `);
 
@@ -37,4 +39,26 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     // await database.execAsync(`
     //     ALTER TABLE tamagotchi ADD COLUMN counterStatus INTEGER DEFAULT 0;
     // `);
+
+    // await database.execAsync (`
+    //     ALTER TABLE tamagotchi ADD COLUMN dateHunger DATETIME;    
+    // `);
+
+    // await database.execAsync (`
+    //     ALTER TABLE tamagotchi ADD COLUMN dateSleep DATETIME;    
+    // `);
+
+    // await database.execAsync (`
+    //     DELETE FROM tamagotchi;    
+    // `);
+
+    // const staticDate = '2024-09-05 11:44:18';
+
+    // // Consulta SQL direta
+    // const query = `
+    //     UPDATE tamagotchi 
+    //     SET dateHunger = '${staticDate}' 
+    // `;
+
+    // await database.execAsync(query);
 }

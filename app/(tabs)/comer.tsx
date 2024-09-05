@@ -27,13 +27,20 @@ export default function ComerScreen() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
+    await tamagotchiDatabase.calculateAtributes();
     await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
+      console.log(response);
       setTamagotchi(response);
       populateBar(response);
     }
+  }
+
+  async function counterHunger() {
+    await tamagotchiDatabase.updateCounterHunger(Number(idParams.id? idParams.id : 1));
+    findBydId();
   }
 
   function populateBar(response: Tamagotchi) {
@@ -110,6 +117,7 @@ export default function ComerScreen() {
             size={40}
             color="white"
             backgroundColor="#7D3106"
+            onPress={() => counterHunger()}
           />
         </Button>
       </View>

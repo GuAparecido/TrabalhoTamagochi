@@ -28,10 +28,12 @@ export default function index() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
+    await tamagotchiDatabase.calculateAtributes();
     await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
+      console.log(response);
       setTamagotchi(response);
       populateBar(response);
     }
@@ -268,3 +270,4 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
 });
+

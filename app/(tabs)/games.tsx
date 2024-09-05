@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Platform, View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
@@ -14,10 +15,6 @@ interface ImageSkin {
   urlTama: string;
 }
 
-type bar = {
-  position: number;
-  isVisible: boolean;
-};
 
 export default function GamesScreen() {
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
@@ -39,9 +36,11 @@ export default function GamesScreen() {
     }
   }
 
-  useEffect(() => {
-    findBydId();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      findBydId();
+    }, [])
+  );
 
   if (!tamagotchi) {
     return (

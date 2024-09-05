@@ -17,8 +17,8 @@ import {
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
-import Bar from "@/components/Bars";
 import Bars from "@/components/Bars";
+
 interface ImageSkin {
   skinId: number;
   urlImage: string;
@@ -35,6 +35,7 @@ export default function SleepScreen() {
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
   const [isSleeping, setIsSleeping] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [countdown, setCountdown] = useState(0); // Cronômetro
 
   const idParams = useGlobalSearchParams();
   const tamagotchiDatabase = useTamagotchiDatabase();
@@ -43,6 +44,7 @@ export default function SleepScreen() {
   const toggleModal = () => {
     setIsSleeping((prev) => !prev);
     setIsVisible(!isVisible);
+    if(tamagotchi)setCountdown(100 - tamagotchi?.counterSleep);
   };
 
   async function findBydId() {
@@ -55,25 +57,36 @@ export default function SleepScreen() {
 
     if (response) {
       setTamagotchi(response);
-      populateBar(response);
     }
   }
 
-  function populateBar(response: Tamagotchi) {
-    const sleep: bar[] = [];
-
-    if (response) {
-      for (let i = 1; i <= 10; i++) {
-        sleep.push({ position: i, isVisible: i <= response.counterSleep / 10 });
-      }
-
-      setBarSleep(sleep);
-    }
+  async function updateCounterSleep() {
+      await tamagotchiDatabase.updateCounterSleep(Number(idParams.id ? idParams.id : 1));
+      findBydId();
   }
 
   useEffect(() => {
     findBydId();
   }, []);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isVisible) {
+      timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev > 1) {
+            updateCounterSleep();
+            return prev - 1;
+          } else {
+            setIsVisible(false); 
+            clearInterval(timer);
+            return 0;
+          }
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isVisible]);
 
   if (!tamagotchi) {
     return (
@@ -100,21 +113,6 @@ export default function SleepScreen() {
         size={30}
         styles={stylesComponent}
       />
-      {/* <View style={styles.row}>
-        <View style={styles.icons}>
-          <Ionicons
-            name="moon"
-            size={40}
-            color="white"
-            backgroundColor="#7D3106"
-          />
-        </View>
-        <View style={styles.loadingContainer}>
-          {barSleep.map((sleep) => (
-            <View key={sleep.position} style={getBarStyle(sleep)} />
-          ))}
-        </View>
-      </View> */}
       <View style={styles.center}>
         <Button style={styles.icons} type="clear" onPress={toggleModal}>
           <Ionicons
@@ -133,18 +131,13 @@ export default function SleepScreen() {
               (img) => img.skinId === tamagotchi.imageId
             )?.urlTama;
 
-            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
             if (typeof image === "string") {
-              return { uri: image }; // Para URLs remotas
+              return { uri: image };
             } else if (typeof image === "number") {
-              return image; // Para imagens locais
+              return image;
             }
-            return undefined; // Caso não encontre a imagem
+            return undefined;
           })()}
-          // source={{
-          //   uri: urlsArray.find((image) => image.skinId === tamagotchi?.imageId)
-          //     ?.urlImage,
-          // }}
         />
       </View>
       <Modal
@@ -155,7 +148,12 @@ export default function SleepScreen() {
       >
         <TouchableWithoutFeedback onPress={toggleModal}>
           <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}></View>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Dormindo...</Text>
+              <Text style={styles.modalText}>
+                {countdown}s
+              </Text>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
@@ -204,7 +202,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -212,7 +210,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 26,
@@ -220,7 +218,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    opacity: 0.2,
+    display: "none",
   },
   loadingContainer: {
     width: 290,
@@ -246,7 +244,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Sombra preta transparente
+    backgroundColor: "rgba(0, 0, 0, 0.8)", 
     justifyContent: "center",
     alignItems: "center",
   },
@@ -255,7 +253,12 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "black",
     borderRadius: 10,
-    display: "none",
+  },
+  modalText: {
+    color: "#fff",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
   },
   center: {
     justifyContent: "center",

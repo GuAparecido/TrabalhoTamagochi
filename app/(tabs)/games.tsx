@@ -2,10 +2,7 @@ import { Image, StyleSheet, Platform, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  Tamagotchi,
-  useTamagotchiDatabase,
-} from "@/database/useTamagotchiDatabase";
+import { Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
 import { router, useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
 import { Button } from "@rneui/base";
@@ -23,7 +20,6 @@ type bar = {
 };
 
 export default function GamesScreen() {
-  const [barFun, setBarFun] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
   const idParams = useGlobalSearchParams();
@@ -40,19 +36,6 @@ export default function GamesScreen() {
 
     if (response) {
       setTamagotchi(response);
-      populateBar(response);
-    }
-  }
-
-  function populateBar(response: Tamagotchi) {
-    const fun: bar[] = [];
-
-    if (response) {
-      for (let i = 1; i <= 10; i++) {
-        fun.push({ position: i, isVisible: i <= response.counterFun / 10 });
-      }
-
-      setBarFun(fun);
     }
   }
 
@@ -81,26 +64,6 @@ export default function GamesScreen() {
         size={30}
         styles={stylesComponent}
       />
-      {/* <View style={styles.row}>
-        <View style={styles.icons}>
-          <Ionicons
-            name="happy"
-            size={40}
-            color="white"
-            backgroundColor="#7D3106"
-          />
-        </View>
-      <View style={styles.row}>
-        <View style={styles.loadingContainer}>
-        {barFun.map((fun) => (
-            <View
-              key={fun.position}
-              style={getBarStyle(fun)}
-            />
-          ))}
-        </View>
-      </View>
-      </View> */}
       <View style={styles.center}>
         <Button
           style={styles.icons}
@@ -122,14 +85,12 @@ export default function GamesScreen() {
             const image = urlsArray.find(
               (img) => img.skinId === tamagotchi.imageId
             )?.urlTama;
-
-            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
             if (typeof image === "string") {
-              return { uri: image }; // Para URLs remotas
+              return { uri: image }; 
             } else if (typeof image === "number") {
-              return image; // Para imagens locais
+              return image; 
             }
-            return undefined; // Caso não encontre a imagem
+            return undefined; 
           })()}
         />
       </View>
@@ -178,7 +139,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -186,7 +147,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none",
   },
   barRightNone: {
     width: 26,
@@ -194,7 +155,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    opacity: 0.2,
+    display: "none",
   },
   loadingContainer: {
     width: 290,

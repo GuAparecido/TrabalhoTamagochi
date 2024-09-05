@@ -2,9 +2,7 @@ import { Image, StyleSheet, Platform, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import {
-  Tamagotchi,
-  useTamagotchiDatabase,
+import { Tamagotchi, useTamagotchiDatabase,
 } from "@/database/useTamagotchiDatabase";
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
@@ -23,7 +21,6 @@ type bar = {
 };
 
 export default function ComerScreen() {
-  const [barHunger, setBarHunger] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
   const idParams = useGlobalSearchParams();
@@ -31,31 +28,19 @@ export default function ComerScreen() {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findBydId() {
-    await tamagotchiDatabase.updateCounterStatus(
-      Number(idParams.id ? idParams.id : 1)
-    );
-    const response = await tamagotchiDatabase.findById(
-      Number(idParams.id ? idParams.id : 1)
-    );
+    await tamagotchiDatabase.calculateAtributes();
+    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
+    const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
-    if (response) {
+    if(response) {
+      console.log(response);
       setTamagotchi(response);
-      populateBar(response);
     }
   }
 
-  function populateBar(response: Tamagotchi) {
-    const hunger: bar[] = [];
-
-    if (response) {
-      for (let i = 1; i <= 10; i++) {
-        hunger.push({
-          position: i,
-          isVisible: i <= response.counterHunger / 10,
-        });
-      }
-      setBarHunger(hunger);
-    }
+  async function counterHunger() {
+    await tamagotchiDatabase.updateCounterHunger(Number(idParams.id? idParams.id : 1));
+    findBydId();
   }
 
   useEffect(() => {
@@ -83,24 +68,6 @@ export default function ComerScreen() {
         size={30}
         styles={stylesComponent}
       />
-      {/* <View style={styles.row}>
-        <View style={styles.icons}>
-          <FontAwesome6
-            name="burger"
-            size={40}
-            color="white"
-            backgroundColor="#7D3106"
-          />
-        </View>
-        <View style={styles.loadingContainer}>
-        {barHunger.map((hunger) => (
-            <View
-              key={hunger.position}
-              style={getBarStyle(hunger)}
-            />
-          ))}
-        </View>
-      </View> */}
       <View style={styles.center}>
         <Button style={styles.icons} type="clear" onPress={() => {}}>
           <FontAwesome6
@@ -108,6 +75,7 @@ export default function ComerScreen() {
             size={30}
             color="white"
             backgroundColor="#7D3106"
+            onPress={() => counterHunger()}
           />
         </Button>
       </View>
@@ -118,14 +86,12 @@ export default function ComerScreen() {
             const image = urlsArray.find(
               (img) => img.skinId === tamagotchi.imageId
             )?.urlTama;
-
-            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
             if (typeof image === "string") {
-              return { uri: image }; // Para URLs remotas
+              return { uri: image }; 
             } else if (typeof image === "number") {
-              return image; // Para imagens locais
+              return image; 
             }
-            return undefined; // Caso não encontre a imagem
+            return undefined; 
           })()}
         />
       </View>
@@ -174,7 +140,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -182,7 +148,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    opacity: 0.2, // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 26,
@@ -190,7 +156,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    opacity: 0.2,
+    display: "none",
   },
   loadingContainer: {
     width: 290,

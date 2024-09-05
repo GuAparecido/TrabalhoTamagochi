@@ -21,13 +21,9 @@ type Bar = {
 };
 
 export default function Index() {
-  const [barFun, setBarFun] = useState<Bar[]>([]);
-  const [barHunger, setBarHunger] = useState<Bar[]>([]);
-  const [barSleep, setBarSleep] = useState<Bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi | undefined>();
 
   const idParams = useGlobalSearchParams();
-  console.log(idParams.id);
   const tamagotchiDatabase = useTamagotchiDatabase();
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
@@ -37,26 +33,8 @@ export default function Index() {
     const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
 
     if(response) {
-      console.log(response);
       setTamagotchi(response);
-      populateBar(response);
     }
-  }
-
-  function populateBar(response: Tamagotchi) {
-    const fun: Bar[] = [];
-    const sleep: Bar[] = [];
-    const hunger: Bar[] = [];
-
-    for (let i = 1; i <= 10; i++) {
-      fun.push({ position: i, isVisible: i <= response.counterFun / 10 });
-      sleep.push({ position: i, isVisible: i <= response.counterSleep / 10 });
-      hunger.push({ position: i, isVisible: i <= response.counterHunger / 10 });
-    }
-
-    setBarFun(fun);
-    setBarSleep(sleep);
-    setBarHunger(hunger);
   }
 
   useEffect(() => {
@@ -162,7 +140,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -170,7 +148,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 26,

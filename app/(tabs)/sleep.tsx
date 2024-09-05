@@ -44,7 +44,7 @@ export default function SleepScreen() {
   const toggleModal = () => {
     setIsSleeping((prev) => !prev);
     setIsVisible(!isVisible);
-    if(tamagotchi)setCountdown(100 - tamagotchi?.counterSleep); // Resetar o cronômetro para 10 segundos
+    if(tamagotchi)setCountdown(100 - tamagotchi?.counterSleep);
   };
 
   async function findBydId() {
@@ -202,7 +202,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -210,7 +210,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 26,

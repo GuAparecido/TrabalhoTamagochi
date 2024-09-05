@@ -33,7 +33,7 @@ const Index = () => {
         setTamagotchis(response);
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 
@@ -110,7 +110,6 @@ const Index = () => {
           <Button
             key={tamagotchi.id}
             buttonStyle={styles.button}
-            // onPress={() => router.push(`/home ${tamagotchi.id}`)} // Atentar ao banco que puxará o id do Tamagochi e trará relacionado ao tamagochi
             title={
               <View style={styles.buttonContent}>
                 <Image
@@ -202,7 +201,7 @@ const stylesComponent = StyleSheet.create({
     width: 15,
     height: 30,
     backgroundColor: "#7D3106",
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 15,
@@ -210,7 +209,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 15,

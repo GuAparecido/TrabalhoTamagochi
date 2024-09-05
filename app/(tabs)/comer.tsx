@@ -2,9 +2,7 @@ import { Image, StyleSheet, Platform, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import {
-  Tamagotchi,
-  useTamagotchiDatabase,
+import { Tamagotchi, useTamagotchiDatabase,
 } from "@/database/useTamagotchiDatabase";
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
@@ -23,7 +21,6 @@ type bar = {
 };
 
 export default function ComerScreen() {
-  const [barHunger, setBarHunger] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
 
   const idParams = useGlobalSearchParams();
@@ -38,27 +35,12 @@ export default function ComerScreen() {
     if(response) {
       console.log(response);
       setTamagotchi(response);
-      populateBar(response);
     }
   }
 
   async function counterHunger() {
     await tamagotchiDatabase.updateCounterHunger(Number(idParams.id? idParams.id : 1));
     findBydId();
-  }
-
-  function populateBar(response: Tamagotchi) {
-    const hunger: bar[] = [];
-
-    if (response) {
-      for (let i = 1; i <= 10; i++) {
-        hunger.push({
-          position: i,
-          isVisible: i <= response.counterHunger / 10,
-        });
-      }
-      setBarHunger(hunger);
-    }
   }
 
   useEffect(() => {
@@ -86,24 +68,6 @@ export default function ComerScreen() {
         size={30}
         styles={stylesComponent}
       />
-      {/* <View style={styles.row}>
-        <View style={styles.icons}>
-          <FontAwesome6
-            name="burger"
-            size={40}
-            color="white"
-            backgroundColor="#7D3106"
-          />
-        </View>
-        <View style={styles.loadingContainer}>
-        {barHunger.map((hunger) => (
-            <View
-              key={hunger.position}
-              style={getBarStyle(hunger)}
-            />
-          ))}
-        </View>
-      </View> */}
       <View style={styles.center}>
         <Button style={styles.icons} type="clear" onPress={() => {}}>
           <FontAwesome6
@@ -122,14 +86,12 @@ export default function ComerScreen() {
             const image = urlsArray.find(
               (img) => img.skinId === tamagotchi.imageId
             )?.urlTama;
-
-            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
             if (typeof image === "string") {
-              return { uri: image }; // Para URLs remotas
+              return { uri: image }; 
             } else if (typeof image === "number") {
-              return image; // Para imagens locais
+              return image; 
             }
-            return undefined; // Caso não encontre a imagem
+            return undefined; 
           })()}
         />
       </View>
@@ -178,7 +140,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barLeftNone: {
     width: 26,
@@ -186,7 +148,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none", // Usando opacidade em vez de display: none
+    display: "none", 
   },
   barRightNone: {
     width: 26,

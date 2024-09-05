@@ -51,8 +51,8 @@ const Register = () => {
               <Image
                 source={
                   typeof skin.urlImage === "string"
-                    ? { uri: skin.urlImage } // Para URLs remotas
-                    : skin.urlImage // Para imagens locais (require)
+                    ? { uri: skin.urlImage } 
+                    : skin.urlImage 
                 }
                 style={styles.image}
               />
@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
     height: 150,
   },
   selectedButtonContainer: {
-    borderRadius: 50, // Arredondar os botões
+    borderRadius: 50, 
     borderWidth: 2,
-    backgroundColor: "#7D0631", // Cor de fundo do botão selecionado
+    backgroundColor: "#7D0631",
   },
   image: {
-    width: 100, // Tamanho da imagem dentro do botão
+    width: 100, 
     height: 100,
   },
   registerButton: {

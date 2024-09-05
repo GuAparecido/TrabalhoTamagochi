@@ -205,7 +205,7 @@ export function useTamagotchiDatabase () {
         const response = await findById(id);
 
         if(response) {
-            if(response.counterHunger<100){
+            if(response.counterHunger<=100){
 
                 const now = new Date();
 

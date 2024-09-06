@@ -113,11 +113,7 @@ const Index = () => {
             title={
               <View style={styles.buttonContent}>
                 <Image
-                  source={{
-                    uri: urlsArray.find(
-                      (image) => image.skinId === tamagotchi.imageId
-                    )?.urlImage,
-                  }}
+                  source={imageUrls[tamagotchi.imageId-1].urlImage}
                   style={styles.image}
                 />
                 <View style={styles.divider} />

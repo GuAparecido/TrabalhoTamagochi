@@ -10,7 +10,6 @@ export type Tamagotchi = {
     counterStatus: number;
     dateHunger: Date;
     dateSleep: Date;
-
 }
 
 export function useTamagotchiDatabase () {
@@ -24,7 +23,7 @@ export function useTamagotchiDatabase () {
 
         const statement = await database.prepareAsync(`
             INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun, counterStatus, dateSleep, dateHunger) 
-            VALUES ($nickName, $imageId, 10, 60, 100, 200, $dateSleep, $dateHunger);    
+            VALUES ($nickName, $imageId, 100, 100, 100, 300, $dateSleep, $dateHunger);    
         `);
 
         try {

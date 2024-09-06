@@ -40,7 +40,7 @@ const Index = () => {
   function statusTamagotchi(statusTamagotchi: number) {
     switch (true) {
       case statusTamagotchi < 1:
-        return "MORTÃO";
+        return "MORTO";
       case statusTamagotchi < 51:
         return "CRÍTICO";
       case statusTamagotchi < 101:
@@ -61,7 +61,7 @@ const Index = () => {
   const textStyle = (statusTamagotchi: number) => {
     switch (true) {
       case statusTamagotchi < 1:
-        return styles.mortao;
+        return styles.morto;
       case statusTamagotchi < 51:
         return styles.critico;
       case statusTamagotchi < 101:
@@ -95,16 +95,6 @@ const Index = () => {
         onChangeText={setSearch}
       />
 
-      <Button
-        size="md"
-        color="#7D0631"
-        buttonStyle={styles.registerButton}
-        onPress={() => router.push("/register")}
-        style={{ width: 200 }}
-      >
-        Novo
-      </Button>
-
       <View style={styles.grid}>
         {tamagotchis.map((tamagotchi) => (
           <Button
@@ -125,25 +115,25 @@ const Index = () => {
                 <Bars
                   counterFun={tamagotchi.counterFun}
                   icon="happy"
-                  size={20}
+                  size={14}
                   styles={stylesComponent}
                 />
                 {/* BAR HUNGER */}
                 <Bars
                   counterFun={tamagotchi.counterHunger}
                   icon="pizza"
-                  size={20}
+                  size={14}
                   styles={stylesComponent}
                 />
                 {/* BAR SLEEP */}
                 <Bars
                   counterFun={tamagotchi.counterSleep}
                   icon="moon"
-                  size={20}
+                  size={14}
                   styles={stylesComponent}
                 />
                 <Text style={textStyle(tamagotchi.counterStatus)}>
-                  {statusTamagotchi(tamagotchi.counterStatus)}
+                  STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
                 </Text>
               </View>
             }
@@ -157,6 +147,14 @@ const Index = () => {
           />
         ))}
       </View>
+      <Button
+        size="md"
+        color="#7D0631"
+        buttonStyle={styles.registerButton}
+        onPress={() => router.push("/register")}
+      >
+        Novo
+      </Button>
     </ScrollView>
   );
 };
@@ -168,64 +166,64 @@ const stylesComponent = StyleSheet.create({
   },
   icons: {
     backgroundColor: "#7D3106",
-    width: 40,
-    height: 40,
+    width: 20,
+    height: 20,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    margin: 4,
   },
   bar: {
     marginLeft: 2,
-    width: 15,
-    height: 30,
+    width: 7,
+    height: 14,
     backgroundColor: "#7D3106",
   },
   barLeft: {
     marginLeft: 2,
-    width: 15,
-    height: 30,
+    width: 8,
+    height: 14,
     backgroundColor: "#7D3106",
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
   },
   barRight: {
     marginLeft: 2,
-    width: 15,
-    height: 30,
+    width: 8,
+    height: 14,
     backgroundColor: "#7D3106",
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
   },
   barNone: {
-    width: 15,
-    height: 30,
+    width: 7,
+    height: 14,
     backgroundColor: "#7D3106",
-    display: "none", 
+    display: "none",
   },
   barLeftNone: {
-    width: 15,
-    height: 30,
+    width: 7,
+    height: 14,
     backgroundColor: "#7D3106",
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-    display: "none", 
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    display: "none",
   },
   barRightNone: {
-    width: 15,
-    height: 30,
+    width: 7,
+    height: 14,
     backgroundColor: "#7D3106",
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
     display: "none",
   },
   loadingContainer: {
-    width: 180,
-    height: 40,
+    width: 100,
+    height: 20,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FBAC5C",
-    padding: 2,
+    backgroundColor: "rgba(250, 186, 102, 1)",
+    padding: 1,
     borderRadius: 16,
     borderColor: "#7D3106",
     borderWidth: 2,
@@ -236,16 +234,9 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
-    backgroundColor: "#FABA66",
-    paddingTop: 20,
+    backgroundColor: "rgba(250, 186, 102, 1)",
+    paddingTop: 60,
     paddingBottom: 20,
-  },
-  bars: {
-    height: 120,
-    width: 120,
-    margin: 0,
-    padding: 0,
-    alignItems: "center",
   },
   registerbutton: {
     width: 200,
@@ -265,12 +256,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   button: {
-    borderRadius: 50,
+    borderRadius: 20,
     borderColor: "#7D0631",
     borderWidth: 2,
-    backgroundColor: "rgba(125, 6, 49, 0.3)",
-    width: 300,
-    height: 600,
+    backgroundColor: "rgba(125, 6, 49, 0.4)",
+    width: 150,
+    height: 300,
   },
   buttonContainer: {
     width: 150,
@@ -291,51 +282,57 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: "80%",
-    borderBottomWidth: 1,
-    borderBottomColor: "#7D0631",
     marginVertical: 8,
   },
   buttonText: {
-    fontSize: 16,
+    marginBottom: 12,
+    fontSize: 18,
     color: "#fff",
   },
   registerButton: {
     width: 100,
     marginTop: 30,
   },
-  mortao: {
+  morto: {
     color: "red",
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: "bold",
   },
   critico: {
+    marginTop: 12,
     color: "darkred",
-    fontSize: 22,
+    fontSize: 14,
     fontWeight: "bold",
   },
   muitoTriste: {
+    marginTop: 12,
     color: "orange",
-    fontSize: 20,
+    fontSize: 14,
   },
   triste: {
+    marginTop: 12,
     color: "gold",
-    fontSize: 18,
+    fontSize: 14,
   },
   ok: {
+    marginTop: 12,
     color: "green",
-    fontSize: 16,
+    fontSize: 14,
   },
   bem: {
+    marginTop: 12,
     color: "blue",
     fontSize: 14,
   },
   muitoBem: {
+    marginTop: 12,
     color: "purple",
-    fontSize: 12,
+    fontSize: 14,
   },
   indefinido: {
+    marginTop: 12,
     color: "black",
-    fontSize: 10,
+    fontSize: 14,
   },
 });
 

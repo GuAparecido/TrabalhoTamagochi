@@ -51,8 +51,8 @@ const Register = () => {
               <Image
                 source={
                   typeof skin.urlImage === "string"
-                    ? { uri: skin.urlImage } 
-                    : skin.urlImage 
+                    ? { uri: skin.urlImage }
+                    : skin.urlImage
                 }
                 style={styles.image}
               />
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     backgroundColor: "#FABA66",
-    paddingTop: 20,
+    paddingTop: 60,
     paddingBottom: 20,
   },
   input: {
@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
     height: 150,
   },
   selectedButtonContainer: {
-    borderRadius: 50, 
+    borderRadius: 50,
     borderWidth: 2,
     backgroundColor: "#7D0631",
   },
   image: {
-    width: 100, 
+    width: 100,
     height: 100,
   },
   registerButton: {

@@ -8,7 +8,8 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
@@ -26,13 +27,7 @@ interface ImageSkin {
   urlTama: string;
 }
 
-type bar = {
-  position: number;
-  isVisible: boolean;
-};
-
 export default function SleepScreen() {
-  const [barSleep, setBarSleep] = useState<bar[]>([]);
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi>();
   const [isSleeping, setIsSleeping] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -45,7 +40,7 @@ export default function SleepScreen() {
   const toggleModal = () => {
     setIsSleeping((prev) => !prev);
     setIsVisible(!isVisible);
-    if (tamagotchi) setCountdown(100 - tamagotchi?.counterSleep);
+    if(tamagotchi)setCountdown(101 - tamagotchi?.counterSleep);
   };
 
   async function findBydId() {
@@ -68,9 +63,11 @@ export default function SleepScreen() {
     findBydId();
   }
 
-  useEffect(() => {
-    findBydId();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      findBydId();
+    }, [])
+  );
 
   useEffect(() => {
     let timer: NodeJS.Timeout;

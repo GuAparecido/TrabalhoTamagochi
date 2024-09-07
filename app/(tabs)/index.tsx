@@ -1,13 +1,11 @@
 import { Image, StyleSheet, View, Text, ViewStyle } from "react-native";
-import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalSearchParams } from "expo-router";
-import {
-  Tamagotchi,
-  useTamagotchiDatabase,
-} from "@/database/useTamagotchiDatabase";
+import {Tamagotchi, useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
 import imageUrls from "@/image/imageUrls";
 import Bars from "@/components/Bars";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { ImageBackground } from "react-native";
 
 interface ImageSkin {
@@ -15,11 +13,6 @@ interface ImageSkin {
   urlImage: string;
   urlTama: string;
 }
-
-type Bar = {
-  position: number;
-  isVisible: boolean;
-};
 
 export default function Index() {
   const [tamagotchi, setTamagotchi] = useState<Tamagotchi | undefined>();
@@ -42,9 +35,11 @@ export default function Index() {
     }
   }
 
-  useEffect(() => {
-    findById();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      findById();
+    }, [])
+  );
 
   if (!tamagotchi) {
     return (

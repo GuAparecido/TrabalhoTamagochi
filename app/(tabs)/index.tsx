@@ -8,6 +8,7 @@ import {
 } from "@/database/useTamagotchiDatabase";
 import imageUrls from "@/image/imageUrls";
 import Bars from "@/components/Bars";
+import { ImageBackground } from "react-native";
 
 interface ImageSkin {
   skinId: number;
@@ -98,53 +99,64 @@ export default function Index() {
   };
 
   return (
-    <SafeAreaView style={styles.safeViewContainer}>
-      <View style={styles.container}>
-        <Text style={styles.nomeTamagochi}>{tamagotchi.nickName}</Text>
-        <Text style={textStyle(tamagotchi.counterStatus)}>
-          STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
-        </Text>
-      </View>
-      {/* BAR FUN */}
-      <Bars
-        counterFun={tamagotchi.counterFun}
-        icon="happy"
-        size={30}
-        styles={stylesComponent}
-      />
-      {/* BAR HUNGER */}
-      <Bars
-        counterFun={tamagotchi.counterHunger}
-        icon="pizza"
-        size={30}
-        styles={stylesComponent}
-      />
-      {/* BAR SLEEP */}
-      <Bars
-        counterFun={tamagotchi.counterSleep}
-        icon="moon"
-        size={30}
-        styles={stylesComponent}
-      />
-      <View style={styles.container}>
-        <Image
-          style={styles.tamagochi}
-          source={(() => {
-            const image = urlsArray.find(
-              (img) => img.skinId === tamagotchi.imageId
-            )?.urlTama;
+    <ImageBackground
+      source={require("@/assets/images/imageBackground.jpg")}
+      style={styles.image}
+    >
+      <SafeAreaView style={styles.safeViewContainer}>
+        <View style={styles.center}>
+          {/* BAR FUN */}
+          <Bars
+            counterFun={tamagotchi.counterFun}
+            icon="happy"
+            size={18}
+            styles={stylesComponent}
+          />
+          {/* BAR HUNGER */}
+          <Bars
+            counterFun={tamagotchi.counterHunger}
+            icon="pizza"
+            size={18}
+            styles={stylesComponent}
+          />
+          {/* BAR SLEEP */}
+          <Bars
+            counterFun={tamagotchi.counterSleep}
+            icon="moon"
+            size={18}
+            styles={stylesComponent}
+          />
+        </View>
+        <View style={styles.container}>
+          <View style={styles.viewStatus}>
+            <Text style={textStyle(tamagotchi.counterStatus)}>
+              STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.container}>
+          <Image
+            style={styles.tamagochi}
+            source={(() => {
+              const image = urlsArray.find(
+                (img) => img.skinId === tamagotchi.imageId
+              )?.urlTama;
 
-            // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
-            if (typeof image === "string") {
-              return { uri: image }; // Para URLs remotas
-            } else if (typeof image === "number") {
-              return image; // Para imagens locais
-            }
-            return undefined; // Caso não encontre a imagem
-          })()}
-        />
-      </View>
-    </SafeAreaView>
+              // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
+              if (typeof image === "string") {
+                return { uri: image }; // Para URLs remotas
+              } else if (typeof image === "number") {
+                return image; // Para imagens locais
+              }
+              return undefined; // Caso não encontre a imagem
+            })()}
+          />
+        </View>
+        <View style={styles.stylesNome}>
+          <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
@@ -155,61 +167,61 @@ const stylesComponent = StyleSheet.create({
   },
   icons: {
     backgroundColor: "#7D3106",
-    width: 40,
-    height: 40,
+    width: 26,
+    height: 26,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
-    marginLeft: 20,
+    margin: 6,
+    marginLeft: -42,
   },
   bar: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
   },
   barLeft: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
   },
   barRight: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
   },
   barNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     display: "none",
   },
   barLeftNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     display: "none",
   },
   barRightNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     display: "none",
   },
   loadingContainer: {
-    width: 290,
-    height: 40,
+    width: 210,
+    height: 26,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FBAC5C",
@@ -223,20 +235,30 @@ const stylesComponent = StyleSheet.create({
 const styles = StyleSheet.create({
   safeViewContainer: {
     flex: 1,
-    backgroundColor: "#A2CCA5",
+  },
+  image: {
+    flex: 1,
+    width: 400,
+    height: 800,
+    padding: 12,
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     justifyContent: "flex-end",
     alignItems: "center",
     marginBottom: 20,
   },
+  stylesNome: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   nomeTamagochi: {
-    fontSize: 40,
-    color: "#7D3106",
+    fontSize: 34,
+    color: "rgba(251, 172, 92, 1)",
     fontWeight: "bold",
-    marginTop: 10,
-    marginLeft: 12,
-    marginBottom: 10,
   },
   loadingText: {
     fontSize: 24,
@@ -250,45 +272,73 @@ const styles = StyleSheet.create({
     marginTop: -22,
     resizeMode: "contain",
   },
+  viewStatus: {
+    backgroundColor: "rgba(251, 172, 92, 0.8)",
+    borderRadius: 6,
+  },
   morto: {
-    color: "red",
-    fontSize: 24,
+    color: "rgba(0,0,0,0.8)",
+    borderColor: "rgba(0,0,0,0.8)",
+    borderBottomWidth: 2,
+    fontSize: 16,
     fontWeight: "bold",
   },
   critico: {
-    paddingTop: 12,
-    color: "darkred",
-    fontSize: 24,
+    borderRadius: 6,
+    color: "rgba(128,0,0,0.8)",
+    borderColor: "rgba(128,0,0,0.8)",
+    borderWidth: 2,
+    padding: 4,
+    fontSize: 16,
     fontWeight: "bold",
   },
   muitoTriste: {
-    paddingTop: 12,
-    color: "orange",
-    fontSize: 24,
+    borderRadius: 6,
+    borderColor: "rgba(255,0,0,0.6)",
+    borderWidth: 2,
+    padding: 4,
+    color: "rgba(255,0,0,0.6)",
+    fontSize: 16,
   },
   triste: {
-    paddingTop: 12,
-    color: "gold",
-    fontSize: 24,
+    borderColor: "rgba(120,120,120,1)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(120,120,120,1)",
+    fontSize: 16,
   },
   ok: {
-    paddingTop: 12,
-    color: "green",
-    fontSize: 24,
+    borderColor: "rgba(250,250,250,1)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(250,250,250,1)",
+    fontSize: 16,
   },
   bem: {
-    paddingTop: 12,
-    color: "blue",
-    fontSize: 24,
+    borderColor: "rgba(0,255,0,0.8)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(0,255,0,0.8)",
+    fontSize: 16,
   },
   muitoBem: {
-    paddingTop: 12,
-    color: "purple",
-    fontSize: 24,
+    borderColor: "rgba(0,128,0,0.8)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(0,128,0,0.8)",
+    fontSize: 16,
   },
   indefinido: {
-    paddingTop: 12,
-    color: "black",
-    fontSize: 24,
+    backgroundColor: "rgba(0,0,0,0)",
+    borderColor: "rgba(0,0,0,0)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(0,0,0,0)",
+    fontSize: 16,
   },
 });

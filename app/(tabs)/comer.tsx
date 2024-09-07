@@ -115,37 +115,25 @@ export default function ComerScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeViewContainer}>
-      <ImageBackground
-        source={require("@/assets/images/imageBackground.jpg")}
-        style={styles.image}
-      >
+    <ImageBackground
+      source={require("@/assets/images/imageBackground.jpg")}
+      style={styles.image}
+    >
+      <SafeAreaView style={styles.safeViewContainer}>
+        <View style={styles.center}>
+          <Bars
+            counterFun={tamagotchi.counterHunger}
+            icon="pizza"
+            size={18}
+            styles={stylesComponent}
+          />
+        </View>
         <View style={styles.container}>
-          <View style={styles.stylesNome}>
-            <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
-          </View>
           <View style={styles.viewStatus}>
             <Text style={textStyle(tamagotchi.counterStatus)}>
               STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
             </Text>
           </View>
-        </View>
-        <Bars
-          counterFun={tamagotchi.counterHunger}
-          icon="pizza"
-          size={30}
-          styles={stylesComponent}
-        />
-        <View style={styles.center}>
-          <Button style={styles.icons} type="clear" onPress={() => {}}>
-            <FontAwesome6
-              name="burger"
-              size={30}
-              color="white"
-              backgroundColor="#7D3106"
-              onPress={() => counterHunger()}
-            />
-          </Button>
         </View>
         <View style={styles.container}>
           <Image
@@ -163,8 +151,20 @@ export default function ComerScreen() {
             })()}
           />
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+        <View style={[styles.stylesNome, stylesComponent.row]}>
+          <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
+          <Button style={styles.icons} type="clear" onPress={() => {}}>
+            <FontAwesome6
+              name="burger"
+              size={30}
+              color="white"
+              backgroundColor="#7D3106"
+              onPress={() => counterHunger()}
+            />
+          </Button>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
@@ -175,61 +175,61 @@ const stylesComponent = StyleSheet.create({
   },
   icons: {
     backgroundColor: "#7D3106",
-    width: 40,
-    height: 40,
+    width: 26,
+    height: 26,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
-    marginLeft: 20,
+    margin: 6,
+    marginLeft: -42,
   },
   bar: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
   },
   barLeft: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
   },
   barRight: {
     marginLeft: 2,
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
   },
   barNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     display: "none",
   },
   barLeftNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     display: "none",
   },
   barRightNone: {
-    width: 26,
-    height: 30,
+    width: 18,
+    height: 18,
     backgroundColor: "#7D3106",
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     display: "none",
   },
   loadingContainer: {
-    width: 290,
-    height: 40,
+    width: 210,
+    height: 26,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FBAC5C",
@@ -243,12 +243,12 @@ const stylesComponent = StyleSheet.create({
 const styles = StyleSheet.create({
   safeViewContainer: {
     flex: 1,
-    backgroundColor: "#7D3106",
   },
   image: {
     flex: 1,
     width: 400,
     height: 800,
+    padding: 12,
   },
   center: {
     justifyContent: "center",
@@ -260,16 +260,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   nomeTamagochi: {
-    fontSize: 40,
-    color: "#7D3106",
+    fontSize: 34,
+    color: "rgba(251, 172, 92, 1)",
     fontWeight: "bold",
-    padding: 6,
+    marginLeft: 54,
   },
   stylesNome: {
-    backgroundColor: "rgba(251, 172, 92, 0.8)",
-    borderRadius: 12,
-    marginTop: 10,
-    marginBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   icons: {
     backgroundColor: "#7D3106",
@@ -278,7 +276,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginLeft: 12,
+    position: "static",
   },
   tamagochi: {
     width: 500,
@@ -297,21 +296,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   morto: {
-    color: "#7D3106",
-    backgroundColor: "rgba(0,0,0,0.8)",
-    borderColor: "#7D3106",
+    color: "rgba(0,0,0,0.8)",
+    borderColor: "rgba(0,0,0,0.8)",
     borderBottomWidth: 2,
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
   },
   critico: {
     borderRadius: 6,
-    color: "#7D3106",
-    backgroundColor: "rgba(128,0,0,0.8)",
-    borderColor: "#7D3106",
+    color: "rgba(128,0,0,0.8)",
+    borderColor: "rgba(128,0,0,0.8)",
     borderWidth: 2,
     padding: 4,
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
   },
   muitoTriste: {
@@ -320,43 +317,39 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 4,
     color: "rgba(255,0,0,0.6)",
-    fontSize: 24,
+    fontSize: 16,
   },
   triste: {
-    backgroundColor: "rgba(255,165,0,0.8)",
-    borderColor: "#7D3106",
+    borderColor: "rgba(120,120,120,1)",
     borderWidth: 2,
     borderRadius: 6,
     padding: 4,
-    color: "#7D3106",
-    fontSize: 24,
+    color: "rgba(120,120,120,1)",
+    fontSize: 16,
   },
   ok: {
-    backgroundColor: "rgba(255,255,0,0.8)",
-    borderColor: "#7D3106",
+    borderColor: "rgba(250,250,250,1)",
     borderWidth: 2,
     borderRadius: 6,
     padding: 4,
-    color: "#7D3106",
-    fontSize: 24,
+    color: "rgba(250,250,250,1)",
+    fontSize: 16,
   },
   bem: {
-    backgroundColor: "rgba(0,255,0,0.8)",
-    borderColor: "#7D3106",
+    borderColor: "rgba(0,255,0,0.8)",
     borderWidth: 2,
     borderRadius: 6,
     padding: 4,
-    color: "#7D3106",
-    fontSize: 24,
+    color: "rgba(0,255,0,0.8)",
+    fontSize: 16,
   },
   muitoBem: {
-    backgroundColor: "rgba(0,128,0,0.8)",
-    borderColor: "#7D3106",
+    borderColor: "rgba(0,128,0,0.8)",
     borderWidth: 2,
     borderRadius: 6,
     padding: 4,
-    color: "#7D3106",
-    fontSize: 24,
+    color: "rgba(0,128,0,0.8)",
+    fontSize: 16,
   },
   indefinido: {
     backgroundColor: "rgba(0,0,0,0)",
@@ -365,6 +358,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 4,
     color: "rgba(0,0,0,0)",
-    fontSize: 24,
+    fontSize: 16,
   },
 });

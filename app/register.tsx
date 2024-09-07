@@ -40,6 +40,7 @@ const Register = () => {
         inputStyle={styles.input}
         inputContainerStyle={styles.inputContainer}
         value={nickName}
+        maxLength={16}
         onChangeText={(text) => setNickName(text)}
       />
       <View style={styles.grid}>

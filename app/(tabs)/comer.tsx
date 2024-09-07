@@ -2,7 +2,9 @@ import { Image, StyleSheet, Platform, View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { Tamagotchi, useTamagotchiDatabase,
+import {
+  Tamagotchi,
+  useTamagotchiDatabase,
 } from "@/database/useTamagotchiDatabase";
 import { useGlobalSearchParams } from "expo-router";
 import imageUrls from "@/image/imageUrls";
@@ -29,17 +31,23 @@ export default function ComerScreen() {
 
   async function findBydId() {
     await tamagotchiDatabase.calculateAtributes();
-    await tamagotchiDatabase.updateCounterStatus(Number(idParams.id? idParams.id : 1));
-    const response = await tamagotchiDatabase.findById(Number(idParams.id? idParams.id : 1));
+    await tamagotchiDatabase.updateCounterStatus(
+      Number(idParams.id ? idParams.id : 1)
+    );
+    const response = await tamagotchiDatabase.findById(
+      Number(idParams.id ? idParams.id : 1)
+    );
 
-    if(response) {
+    if (response) {
       console.log(response);
       setTamagotchi(response);
     }
   }
 
   async function counterHunger() {
-    await tamagotchiDatabase.updateCounterHunger(Number(idParams.id? idParams.id : 1));
+    await tamagotchiDatabase.updateCounterHunger(
+      Number(idParams.id ? idParams.id : 1)
+    );
     findBydId();
   }
 
@@ -57,10 +65,55 @@ export default function ComerScreen() {
     );
   }
 
+  function statusTamagotchi(statusTamagotchi: number) {
+    switch (true) {
+      case statusTamagotchi < 1:
+        return "MORTO";
+      case statusTamagotchi < 51:
+        return "CRÍTICO";
+      case statusTamagotchi < 101:
+        return "MUITO TRISTE";
+      case statusTamagotchi < 151:
+        return "TRISTE";
+      case statusTamagotchi < 201:
+        return "OK";
+      case statusTamagotchi < 251:
+        return "BEM";
+      case statusTamagotchi < 301:
+        return "MUITO BEM";
+      default:
+        return "STATUS INDEFINIDO";
+    }
+  }
+
+  const textStyle = (statusTamagotchi: number) => {
+    switch (true) {
+      case statusTamagotchi < 1:
+        return styles.morto;
+      case statusTamagotchi < 51:
+        return styles.critico;
+      case statusTamagotchi < 101:
+        return styles.muitoTriste;
+      case statusTamagotchi < 151:
+        return styles.triste;
+      case statusTamagotchi < 201:
+        return styles.ok;
+      case statusTamagotchi < 251:
+        return styles.bem;
+      case statusTamagotchi < 301:
+        return styles.muitoBem;
+      default:
+        return styles.indefinido;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeViewContainer}>
       <View style={styles.container}>
         <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
+        <Text style={textStyle(tamagotchi.counterStatus)}>
+          STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
+        </Text>
       </View>
       <Bars
         counterFun={tamagotchi.counterHunger}
@@ -87,11 +140,11 @@ export default function ComerScreen() {
               (img) => img.skinId === tamagotchi.imageId
             )?.urlTama;
             if (typeof image === "string") {
-              return { uri: image }; 
+              return { uri: image };
             } else if (typeof image === "number") {
-              return image; 
+              return image;
             }
-            return undefined; 
+            return undefined;
           })()}
         />
       </View>
@@ -140,7 +193,7 @@ const stylesComponent = StyleSheet.create({
     width: 26,
     height: 30,
     backgroundColor: "#7D3106",
-    display: "none", 
+    display: "none",
   },
   barLeftNone: {
     width: 26,
@@ -148,7 +201,7 @@ const stylesComponent = StyleSheet.create({
     backgroundColor: "#7D3106",
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    display: "none", 
+    display: "none",
   },
   barRightNone: {
     width: 26,
@@ -213,5 +266,46 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#7D3106",
     fontWeight: "bold",
+  },
+  morto: {
+    color: "red",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  critico: {
+    paddingTop: 12,
+    color: "darkred",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  muitoTriste: {
+    paddingTop: 12,
+    color: "orange",
+    fontSize: 24,
+  },
+  triste: {
+    paddingTop: 12,
+    color: "gold",
+    fontSize: 24,
+  },
+  ok: {
+    paddingTop: 12,
+    color: "green",
+    fontSize: 24,
+  },
+  bem: {
+    paddingTop: 12,
+    color: "blue",
+    fontSize: 24,
+  },
+  muitoBem: {
+    paddingTop: 12,
+    color: "purple",
+    fontSize: 24,
+  },
+  indefinido: {
+    paddingTop: 12,
+    color: "black",
+    fontSize: 24,
   },
 });

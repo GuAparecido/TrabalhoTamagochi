@@ -1,5 +1,12 @@
 import { useRouter } from "expo-router";
-import { Image, View, StyleSheet, Text, ScrollView } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import imageUrls from "@/image/imageUrls";
 import { Input, Button } from "@rneui/themed";
 import {
@@ -79,6 +86,10 @@ const Index = () => {
     }
   };
 
+  const dead = (statusDead: number): boolean => {
+    return statusDead === 0 ? true : false;
+  };
+
   useFocusEffect(
     useCallback(() => {
       findTamagochis();
@@ -86,7 +97,7 @@ const Index = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView style={styles.safeContainer}>
       <Input
         placeholder="Busque seu Tamagochi"
         placeholderTextColor="#7D0631"
@@ -94,68 +105,72 @@ const Index = () => {
         inputContainerStyle={styles.inputContainer}
         onChangeText={setSearch}
       />
-
-      <View style={styles.grid}>
-        {tamagotchis.map((tamagotchi) => (
-          <Button
-            key={tamagotchi.id}
-            buttonStyle={styles.button}
-            title={
-              <View style={styles.buttonContent}>
-                <Image
-                  source={{
-                    uri: urlsArray.find(
-                      (image) => image.skinId === tamagotchi.imageId
-                    )?.urlImage,
-                  }}
-                  style={styles.image}
-                />
-                <View style={styles.divider} />
-                <Text style={styles.buttonText}>{tamagotchi.nickName}</Text>
-                <Bars
-                  counterFun={tamagotchi.counterFun}
-                  icon="happy"
-                  size={14}
-                  styles={stylesComponent}
-                />
-                {/* BAR HUNGER */}
-                <Bars
-                  counterFun={tamagotchi.counterHunger}
-                  icon="pizza"
-                  size={14}
-                  styles={stylesComponent}
-                />
-                {/* BAR SLEEP */}
-                <Bars
-                  counterFun={tamagotchi.counterSleep}
-                  icon="moon"
-                  size={14}
-                  styles={stylesComponent}
-                />
-                <Text style={textStyle(tamagotchi.counterStatus)}>
-                  STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
-                </Text>
-              </View>
-            }
-            type="clear"
-            onPress={() =>
-              router.push({
-                pathname: "/(tabs)/",
-                params: { id: tamagotchi.id },
-              })
-            }
-          />
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.grid}>
+          {tamagotchis.map((tamagotchi) => (
+            <Button
+              disabled={dead(tamagotchi.counterStatus)}
+              key={tamagotchi.id}
+              buttonStyle={
+                tamagotchi.counterStatus === 0
+                  ? styles.buttonDead
+                  : styles.button
+              }
+              title={
+                <View style={styles.buttonContent}>
+                  <Image
+                    source={{
+                      uri: urlsArray.find(
+                        (image) => image.skinId === tamagotchi.imageId
+                      )?.urlImage,
+                    }}
+                    style={styles.image}
+                  />
+                  <View style={styles.divider} />
+                  <Text style={styles.buttonText}>{tamagotchi.nickName}</Text>
+                  <Bars
+                    counterFun={tamagotchi.counterFun}
+                    icon="happy"
+                    size={14}
+                    styles={stylesComponent}
+                  />
+                  {/* BAR HUNGER */}
+                  <Bars
+                    counterFun={tamagotchi.counterHunger}
+                    icon="pizza"
+                    size={14}
+                    styles={stylesComponent}
+                  />
+                  {/* BAR SLEEP */}
+                  <Bars
+                    counterFun={tamagotchi.counterSleep}
+                    icon="moon"
+                    size={14}
+                    styles={stylesComponent}
+                  />
+                  <Text style={textStyle(tamagotchi.counterStatus)}>
+                    STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
+                  </Text>
+                </View>
+              }
+              type="clear"
+              onPress={() =>
+                router.push({
+                  pathname: "/(tabs)/",
+                  params: { id: tamagotchi.id },
+                })
+              }
+            />
+          ))}
+        </View>
+      </ScrollView>
       <Button
-        size="md"
-        color="#7D0631"
         buttonStyle={styles.registerButton}
         onPress={() => router.push("/register")}
       >
         Novo
       </Button>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -231,16 +246,16 @@ const stylesComponent = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 850,
+    backgroundColor: "rgba(250, 186, 102, 1)",
+  },
   container: {
     flexGrow: 1,
     alignItems: "center",
     backgroundColor: "rgba(250, 186, 102, 1)",
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  registerbutton: {
-    width: 200,
-    marginTop: 30,
   },
   input: {
     color: "#7D0631",
@@ -253,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    gap: 10,
+    gap: 30,
   },
   button: {
     borderRadius: 20,
@@ -263,14 +278,13 @@ const styles = StyleSheet.create({
     width: 150,
     height: 300,
   },
-  buttonContainer: {
-    width: 150,
-    height: 150,
-  },
-  selectedButtonContainer: {
-    borderRadius: 50,
+  buttonDead: {
+    borderRadius: 20,
+    borderColor: "black",
     borderWidth: 2,
-    backgroundColor: "#7D0631",
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    width: 150,
+    height: 300,
   },
   image: {
     width: 80,
@@ -285,52 +299,56 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   buttonText: {
-    marginBottom: 12,
+    paddingBottom: 12,
     fontSize: 18,
     color: "#fff",
   },
   registerButton: {
     width: 100,
-    marginTop: 30,
+    borderRadius: 12,
+    backgroundColor: "rgba(125, 6, 49, 0.4)",
+    borderColor: "#7D0631",
+    borderWidth: 2,
+    marginTop: 20,
   },
   morto: {
-    color: "red",
+    color: "black",
     fontSize: 14,
     fontWeight: "bold",
   },
   critico: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "darkred",
     fontSize: 14,
     fontWeight: "bold",
   },
   muitoTriste: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "orange",
     fontSize: 14,
   },
   triste: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "gold",
     fontSize: 14,
   },
   ok: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "green",
     fontSize: 14,
   },
   bem: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "blue",
     fontSize: 14,
   },
   muitoBem: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "purple",
     fontSize: 14,
   },
   indefinido: {
-    marginTop: 12,
+    paddingTop: 12,
     color: "black",
     fontSize: 14,
   },

@@ -19,7 +19,7 @@ import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
-  urlImage: string;
+  urlImage: any;
 }
 
 const Index = () => {
@@ -31,6 +31,7 @@ const Index = () => {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findTamagochis() {
+    await tamagotchiDatabase.calculateAtributes();
     try {
       if (search.trim() === "") {
         const response = await tamagotchiDatabase.findAll();
@@ -119,11 +120,7 @@ const Index = () => {
               title={
                 <View style={styles.buttonContent}>
                   <Image
-                    source={{
-                      uri: urlsArray.find(
-                        (image) => image.skinId === tamagotchi.imageId
-                      )?.urlImage,
-                    }}
+                    source={urlsArray[tamagotchi.imageId-1].urlImage}
                     style={styles.image}
                   />
                   <View style={styles.divider} />
@@ -182,56 +179,7 @@ const Index = () => {
       >
         Novo
       </Button>
-
-      <View style={styles.grid}>
-        {tamagotchis.map((tamagotchi) => (
-          <Button
-            key={tamagotchi.id}
-            buttonStyle={styles.button}
-            title={
-              <View style={styles.buttonContent}>
-                <Image
-                  source={imageUrls[tamagotchi.imageId-1].urlImage}
-                  style={styles.image}
-                />
-                <View style={styles.divider} />
-                <Text style={styles.buttonText}>{tamagotchi.nickName}</Text>
-                <Bars
-                  counterFun={tamagotchi.counterFun}
-                  icon="happy"
-                  size={20}
-                  styles={stylesComponent}
-                />
-                {/* BAR HUNGER */}
-                <Bars
-                  counterFun={tamagotchi.counterHunger}
-                  icon="pizza"
-                  size={20}
-                  styles={stylesComponent}
-                />
-                {/* BAR SLEEP */}
-                <Bars
-                  counterFun={tamagotchi.counterSleep}
-                  icon="moon"
-                  size={20}
-                  styles={stylesComponent}
-                />
-                <Text style={textStyle(tamagotchi.counterStatus)}>
-                  {statusTamagotchi(tamagotchi.counterStatus)}
-                </Text>
-              </View>
-            }
-            type="clear"
-            onPress={() =>
-              router.push({
-                pathname: "/(tabs)/",
-                params: { id: tamagotchi.id },
-              })
-            }
-          />
-        ))}
-      </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

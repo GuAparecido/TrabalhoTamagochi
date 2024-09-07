@@ -50,7 +50,7 @@ const Register = () => {
             buttonStyle={styles.button}
             title={
               <Image
-              source={imageUrls[skin.skinId-1].urlImage}
+              source={skin.urlImage}
                 style={styles.image}
               />
             }

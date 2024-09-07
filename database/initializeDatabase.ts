@@ -11,7 +11,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             counterHunger INTEGER,
             counterStatus INTEGER,
             dateSleep DATETIME,
-            dateHunger DATETIME
+            dateHunger DATETIME,
+            dateFun DATETIME
         );    
     `);
 
@@ -46,6 +47,10 @@ export async function initializeDatabase(database: SQLiteDatabase) {
 
     // await database.execAsync (`
     //     ALTER TABLE tamagotchi ADD COLUMN dateSleep DATETIME;    
+    // `);
+
+    // await database.execAsync (`
+    //     ALTER TABLE tamagotchi ADD COLUMN dateFun DATETIME;    
     // `);
 
     // await database.execAsync (`

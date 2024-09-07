@@ -23,8 +23,8 @@ import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
-  urlImage: string;
-  urlTama: string;
+  urlImage: any;
+  urlTama: any;
 }
 
 export default function SleepScreen() {
@@ -88,16 +88,6 @@ export default function SleepScreen() {
     return () => clearInterval(timer);
   }, [isVisible]);
 
-  if (!tamagotchi) {
-    return (
-      <SafeAreaView style={styles.safeViewContainer}>
-        <View style={styles.container}>
-          <Text style={styles.loadingText}>Loading...</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   function statusTamagotchi(statusTamagotchi: number) {
     switch (true) {
       case statusTamagotchi < 1:
@@ -144,6 +134,17 @@ export default function SleepScreen() {
     ? styles.safeViewContainerDormir
     : styles.safeViewContainer;
 
+
+    if (!tamagotchi) {
+      return (
+        <SafeAreaView style={styles.safeViewContainer}>
+          <View style={styles.container}>
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        </SafeAreaView>
+      );
+    }
+
   return (
     <ImageBackground
       source={require("@/assets/images/imageBackground.jpg")}
@@ -168,17 +169,7 @@ export default function SleepScreen() {
         <View style={styles.container}>
           <Image
             style={styles.tamagochi}
-            source={(() => {
-              const image = urlsArray.find(
-                (img) => img.skinId === tamagotchi.imageId
-              )?.urlTama;
-              if (typeof image === "string") {
-                return { uri: image };
-              } else if (typeof image === "number") {
-                return image;
-              }
-              return undefined;
-            })()}
+            source={urlsArray[tamagotchi.imageId-1].urlTama}
           />
         </View>
         <View style={[styles.stylesNome, stylesComponent.row]}>

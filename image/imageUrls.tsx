@@ -6,11 +6,11 @@ export type ImageSkin = {
 
 const imageUrls: Array<ImageSkin> = [];
 
-// imageUrls.push({
-//   skinId: 1,
-//   urlImage: require('../assets/images/imageTeams/atleticopr.png'),
-//   urlTama: require('../assets/images/ImagesTama/atleticopr.png')
-// });
+imageUrls.push({
+  skinId: 1,
+  urlImage: require('../assets/images/imageTeams/atleticopr.png'),
+  urlTama: require('../assets/images/ImagesTama/atleticopr.png')
+});
 
 imageUrls.push({
   skinId: 2,
@@ -114,11 +114,11 @@ imageUrls.push({
   urlTama: require('../assets/images/ImagesTama/vasco.png')
 });
 
-// imageUrls.push({
-//   skinId: 19,
-//   urlImage: require('../assets/images/imageTeams/america.png'),
-//   urlTama: require('../assets/images/ImagesTama/america.png')
-// });
+imageUrls.push({
+  skinId: 19,
+  urlImage: require('../assets/images/imageTeams/america.png'),
+  urlTama: require('../assets/images/ImagesTama/america.png')
+});
 
 imageUrls.push({
   skinId: 20,

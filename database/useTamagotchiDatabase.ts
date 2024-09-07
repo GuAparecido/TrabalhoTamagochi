@@ -10,6 +10,7 @@ export type Tamagotchi = {
     counterStatus: number;
     dateHunger: Date;
     dateSleep: Date;
+    dateFun : Date;
 }
 
 export function useTamagotchiDatabase () {
@@ -22,8 +23,8 @@ export function useTamagotchiDatabase () {
         const dateFormated =  now.toISOString().slice(0, 19).replace('T', ' ');
 
         const statement = await database.prepareAsync(`
-            INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun, counterStatus, dateSleep, dateHunger) 
-            VALUES ($nickName, $imageId, 100, 100, 100, 300, $dateSleep, $dateHunger);    
+            INSERT INTO tamagotchi (nickName, imageId, counterHunger, counterSleep, counterFun, counterStatus, dateSleep, dateHunger, dateFun) 
+            VALUES ($nickName, $imageId, 100, 100, 100, 300, $dateSleep, $dateHunger, $dateFun);    
         `);
 
         try {
@@ -31,7 +32,8 @@ export function useTamagotchiDatabase () {
                 $nickName: data.nickName,
                 $imageId: data.imageId,
                 $dateSleep: dateFormated,
-                $dateHunger: dateFormated
+                $dateHunger: dateFormated,
+                $dateFun: dateFormated
             });
 
             const insertRowId = result.lastInsertRowId.toLocaleString();
@@ -145,36 +147,24 @@ export function useTamagotchiDatabase () {
 
     async function calculateAtributes() {
         const tamagotchis = await findAll();
-        console.log('teste');
+
         for(const response of tamagotchis){
             if (response) {
                 const now = new Date();
-                console.log(now);
-    
-                const dateFormated =  now.toISOString().slice(0, 19).replace('T', ' ');
-    
-                const novo = new Date(dateFormated);
-        
-                const dateHunger = new Date(response.dateHunger);
-        
-                const differenceHunger = novo.getTime() - dateHunger.getTime();
-        
-                const differenceHungerInHours = differenceHunger / (1000 * 60 * 60);
-        
-                const newCounterHunger = Math.floor(differenceHungerInHours * 10);
+                const dateFormated = now.toISOString().slice(0, 19).replace('T', ' ');
+                const nowFormated = new Date(dateFormated);
+               
+                const newCounterHunger = calculateDifferenceInCounter(nowFormated, response.dateHunger);
 
-                const dateSleep = new Date(response.dateSleep);
-        
-                const differenceSleep = novo.getTime() - dateSleep.getTime();
-        
-                const differenceHungerInSleep = differenceSleep / (1000 * 60 * 60);
-        
-                const newCounterSleep = Math.floor(differenceHungerInSleep * 10);
+                const newCounterSleep = calculateDifferenceInCounter(nowFormated, response.dateSleep);
+
+                const newCounterFun = calculateDifferenceInCounter(nowFormated, response.dateFun);
 
                 const statement = await database.prepareAsync(`
                     UPDATE tamagotchi SET 
                     counterHunger = $counterHunger, dateHunger = $dateHunger,
-                    counterSleep = $counterSleep, dateSleep = $dateSleep 
+                    counterSleep = $counterSleep, dateSleep = $dateSleep,
+                    counterFun = $counterFun, dateFun = $dateFun
                     WHERE id = $id
                 `);
         
@@ -182,9 +172,11 @@ export function useTamagotchiDatabase () {
                     const result = await statement.executeAsync({
                         $counterHunger: (response.counterHunger - newCounterHunger) <= 0 ? 0 : response.counterHunger - newCounterHunger ,
                         $counterSleep: (response.counterSleep - newCounterSleep) <= 0 ? 0 : response.counterSleep - newCounterSleep ,
+                        $counterFun: (response.counterFun - newCounterFun) <= 0 ? 0 : response.counterFun - newCounterFun,
                         $id: response.id,
                         $dateHunger: dateFormated,
-                        $dateSleep: dateFormated
+                        $dateSleep: dateFormated,
+                        $dateFun: dateFormated
                     });
         
                     console.log("Atualização bem-sucedida:", result);
@@ -199,6 +191,12 @@ export function useTamagotchiDatabase () {
         };
     
     }
+
+    function calculateDifferenceInCounter(dateNow: Date, previousDate: Date) {
+        const differenceInMilliseconds = dateNow.getTime() - new Date(previousDate).getTime();
+        const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+        return Math.floor(differenceInHours * 10);
+      }
 
     async function updateCounterSleep(id:number) {
         const response = await findById(id);

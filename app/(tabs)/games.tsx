@@ -14,8 +14,8 @@ import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
-  urlImage: string;
-  urlTama: string;
+  urlImage: any;
+  urlTama: any;
 }
 
 
@@ -121,17 +121,7 @@ export default function GamesScreen() {
         <View style={styles.container}>
           <Image
             style={styles.tamagochi}
-            source={(() => {
-              const image = urlsArray.find(
-                (img) => img.skinId === tamagotchi.imageId
-              )?.urlTama;
-              if (typeof image === "string") {
-                return { uri: image };
-              } else if (typeof image === "number") {
-                return image;
-              }
-              return undefined;
-            })()}
+            source={urlsArray[tamagotchi.imageId-1].urlTama}
           />
         </View>
         <View style={[styles.stylesNome, stylesComponent.row]}>

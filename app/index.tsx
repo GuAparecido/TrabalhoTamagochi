@@ -132,21 +132,33 @@ const Index = () => {
                     counterFun={tamagotchi.counterFun}
                     icon="happy"
                     size={14}
-                    styles={stylesComponent}
+                    styles={
+                      tamagotchi.counterStatus === 0
+                        ? stylesBarDead
+                        : stylesComponent
+                    }
                   />
                   {/* BAR HUNGER */}
                   <Bars
                     counterFun={tamagotchi.counterHunger}
                     icon="pizza"
                     size={14}
-                    styles={stylesComponent}
+                    styles={
+                      tamagotchi.counterStatus === 0
+                        ? stylesBarDead
+                        : stylesComponent
+                    }
                   />
                   {/* BAR SLEEP */}
                   <Bars
                     counterFun={tamagotchi.counterSleep}
                     icon="moon"
                     size={14}
-                    styles={stylesComponent}
+                    styles={
+                      tamagotchi.counterStatus === 0
+                        ? stylesBarDead
+                        : stylesComponent
+                    }
                   />
                   <Text style={textStyle(tamagotchi.counterStatus)}>
                     STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
@@ -241,6 +253,77 @@ const stylesComponent = StyleSheet.create({
     padding: 1,
     borderRadius: 16,
     borderColor: "#7D3106",
+    borderWidth: 2,
+  },
+});
+
+const stylesBarDead = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icons: {
+    backgroundColor: "black",
+    width: 20,
+    height: 20,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 4,
+  },
+  bar: {
+    marginLeft: 2,
+    width: 7,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+  },
+  barLeft: {
+    marginLeft: 2,
+    width: 8,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+  },
+  barRight: {
+    marginLeft: 2,
+    width: 8,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  barNone: {
+    width: 7,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    display: "none",
+  },
+  barLeftNone: {
+    width: 7,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    display: "none",
+  },
+  barRightNone: {
+    width: 7,
+    height: 14,
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+    display: "none",
+  },
+  loadingContainer: {
+    width: 100,
+    height: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(150, 150, 150, 0.8)",
+    padding: 1,
+    borderRadius: 16,
+    borderColor: "black",
     borderWidth: 2,
   },
 });

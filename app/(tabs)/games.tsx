@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text, ImageBackground } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -100,48 +100,57 @@ export default function GamesScreen() {
 
   return (
     <SafeAreaView style={styles.safeViewContainer}>
-      <View style={styles.container}>
-        <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
-        <Text style={textStyle(tamagotchi.counterStatus)}>
-          STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
-        </Text>
-      </View>
-      <Bars
-        counterFun={tamagotchi.counterFun}
-        icon="happy"
-        size={30}
-        styles={stylesComponent}
-      />
-      <View style={styles.center}>
-        <Button
-          style={styles.icons}
-          type="clear"
-          onPress={() => router.push("/jogos")}
-        >
-          <Ionicons
-            name="dice"
-            size={30}
-            color="white"
-            backgroundColor="#7D3106"
-          />
-        </Button>
-      </View>
-      <View style={styles.container}>
-        <Image
-          style={styles.tamagochi}
-          source={(() => {
-            const image = urlsArray.find(
-              (img) => img.skinId === tamagotchi.imageId
-            )?.urlTama;
-            if (typeof image === "string") {
-              return { uri: image };
-            } else if (typeof image === "number") {
-              return image;
-            }
-            return undefined;
-          })()}
+      <ImageBackground
+        source={require("@/assets/images/imageBackground.jpg")}
+        style={styles.image}
+      >
+        <View style={styles.container}>
+          <View style={styles.stylesNome}>
+            <Text style={styles.nomeTamagochi}>{tamagotchi?.nickName}</Text>
+          </View>
+          <View style={styles.viewStatus}>
+            <Text style={textStyle(tamagotchi.counterStatus)}>
+              STATUS: {statusTamagotchi(tamagotchi.counterStatus)}
+            </Text>
+          </View>
+        </View>
+        <Bars
+          counterFun={tamagotchi.counterFun}
+          icon="happy"
+          size={30}
+          styles={stylesComponent}
         />
-      </View>
+        <View style={styles.center}>
+          <Button
+            style={styles.icons}
+            type="clear"
+            onPress={() => router.push("/jogos")}
+          >
+            <Ionicons
+              name="dice"
+              size={30}
+              color="white"
+              backgroundColor="#7D3106"
+            />
+          </Button>
+        </View>
+        <View style={styles.container}>
+          <Image
+            style={styles.tamagochi}
+            source={(() => {
+              const image = urlsArray.find(
+                (img) => img.skinId === tamagotchi.imageId
+              )?.urlTama;
+              if (typeof image === "string") {
+                return { uri: image };
+              } else if (typeof image === "number") {
+                return image;
+              }
+              return undefined;
+            })()}
+          />
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -221,7 +230,12 @@ const stylesComponent = StyleSheet.create({
 const styles = StyleSheet.create({
   safeViewContainer: {
     flex: 1,
-    backgroundColor: "#A2CCA5",
+    backgroundColor: "#7D3106",
+  },
+  image: {
+    flex: 1,
+    width: 400,
+    height: 800,
   },
   center: {
     justifyContent: "center",
@@ -236,8 +250,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#7D3106",
     fontWeight: "bold",
+    padding: 6,
+  },
+  stylesNome: {
+    backgroundColor: "rgba(251, 172, 92, 0.8)",
+    borderRadius: 12,
     marginTop: 10,
-    marginLeft: 12,
     marginBottom: 10,
   },
   icons: {
@@ -261,45 +279,79 @@ const styles = StyleSheet.create({
     color: "#7D3106",
     fontWeight: "bold",
   },
+  viewStatus: {
+    backgroundColor: "rgba(251, 172, 92, 0.8)",
+    borderRadius: 6,
+  },
   morto: {
-    color: "red",
+    color: "#7D3106",
+    backgroundColor: "rgba(0,0,0,0.8)",
+    borderColor: "#7D3106",
+    borderBottomWidth: 2,
     fontSize: 24,
     fontWeight: "bold",
   },
   critico: {
-    paddingTop: 12,
-    color: "darkred",
+    borderRadius: 6,
+    color: "#7D3106",
+    backgroundColor: "rgba(128,0,0,0.8)",
+    borderColor: "#7D3106",
+    borderWidth: 2,
+    padding: 4,
     fontSize: 24,
     fontWeight: "bold",
   },
   muitoTriste: {
-    paddingTop: 12,
-    color: "orange",
+    borderRadius: 6,
+    borderColor: "rgba(255,0,0,0.6)",
+    borderWidth: 2,
+    padding: 4,
+    color: "rgba(255,0,0,0.6)",
     fontSize: 24,
   },
   triste: {
-    paddingTop: 12,
-    color: "gold",
+    backgroundColor: "rgba(255,165,0,0.8)",
+    borderColor: "#7D3106",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "#7D3106",
     fontSize: 24,
   },
   ok: {
-    paddingTop: 12,
-    color: "green",
+    backgroundColor: "rgba(255,255,0,0.8)",
+    borderColor: "#7D3106",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "#7D3106",
     fontSize: 24,
   },
   bem: {
-    paddingTop: 12,
-    color: "blue",
+    backgroundColor: "rgba(0,255,0,0.8)",
+    borderColor: "#7D3106",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "#7D3106",
     fontSize: 24,
   },
   muitoBem: {
-    paddingTop: 12,
-    color: "purple",
+    backgroundColor: "rgba(0,128,0,0.8)",
+    borderColor: "#7D3106",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "#7D3106",
     fontSize: 24,
   },
   indefinido: {
-    paddingTop: 12,
-    color: "black",
+    backgroundColor: "rgba(0,0,0,0)",
+    borderColor: "rgba(0,0,0,0)",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 4,
+    color: "rgba(0,0,0,0)",
     fontSize: 24,
   },
 });

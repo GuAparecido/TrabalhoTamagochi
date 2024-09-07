@@ -50,11 +50,7 @@ const Register = () => {
             buttonStyle={styles.button}
             title={
               <Image
-                source={
-                  typeof skin.urlImage === "string"
-                    ? { uri: skin.urlImage }
-                    : skin.urlImage
-                }
+              source={skin.urlImage}
                 style={styles.image}
               />
             }

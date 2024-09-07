@@ -19,7 +19,7 @@ import Bars from "@/components/Bars";
 
 interface ImageSkin {
   skinId: number;
-  urlImage: string;
+  urlImage: any;
 }
 
 const Index = () => {
@@ -31,6 +31,7 @@ const Index = () => {
   const urlsArray: ImageSkin[] = Array.from(imageUrls);
 
   async function findTamagochis() {
+    await tamagotchiDatabase.calculateAtributes();
     try {
       if (search.trim() === "") {
         const response = await tamagotchiDatabase.findAll();
@@ -119,11 +120,7 @@ const Index = () => {
               title={
                 <View style={styles.buttonContent}>
                   <Image
-                    source={{
-                      uri: urlsArray.find(
-                        (image) => image.skinId === tamagotchi.imageId
-                      )?.urlImage,
-                    }}
+                    source={urlsArray[tamagotchi.imageId-1].urlImage}
                     style={styles.image}
                   />
                   <View style={styles.divider} />

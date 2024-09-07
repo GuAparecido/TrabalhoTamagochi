@@ -10,8 +10,8 @@ import { ImageBackground } from "react-native";
 
 interface ImageSkin {
   skinId: number;
-  urlImage: string;
-  urlTama: string;
+  urlImage: any;
+  urlTama: any;
 }
 
 export default function Index() {
@@ -132,19 +132,7 @@ export default function Index() {
         <View style={styles.container}>
           <Image
             style={styles.tamagochi}
-            source={(() => {
-              const image = urlsArray.find(
-                (img) => img.skinId === tamagotchi.imageId
-              )?.urlTama;
-
-              // Verifica se a imagem é uma string (URL remota) ou um número (imagem local via require)
-              if (typeof image === "string") {
-                return { uri: image }; // Para URLs remotas
-              } else if (typeof image === "number") {
-                return image; // Para imagens locais
-              }
-              return undefined; // Caso não encontre a imagem
-            })()}
+            source={urlsArray[tamagotchi.imageId-1].urlTama}
           />
         </View>
         <View style={styles.stylesNome}>

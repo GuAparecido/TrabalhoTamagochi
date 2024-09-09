@@ -17,7 +17,7 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     `);
 
 
-    // OBS: RODA PRIMEIRO ISSO PARA PARAR DE DAR O ERRO, DEPOIS VOLTA O CODIGO DE CIMA
+    // // OBS: RODA PRIMEIRO ISSO PARA PARAR DE DAR O ERRO, DEPOIS VOLTA O CODIGO DE CIMA
     // await database.execAsync(`
     //     CREATE TABLE IF NOT EXISTS tamagotchi (
     //         id INTEGER PRIMARY KEY AUTOINCREMENT,

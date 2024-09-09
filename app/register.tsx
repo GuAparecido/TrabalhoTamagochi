@@ -1,4 +1,4 @@
-import { Alert, Image, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { Input, Button } from "@rneui/themed";
 import { useState } from "react";
 import imageUrls, { ImageSkin } from "@/image/imageUrls";
@@ -33,16 +33,18 @@ const Register = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView style={styles.safeContainer}>
+    
       <Input
         placeholder="Digite o nome do bicho"
         placeholderTextColor="#7D0631"
         inputStyle={styles.input}
         inputContainerStyle={styles.inputContainer}
         value={nickName}
-        maxLength={16}
+        maxLength={19}
         onChangeText={(text) => setNickName(text)}
       />
+      <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.grid}>
         {urlsArray.map((skin) => (
           <Button
@@ -65,6 +67,7 @@ const Register = () => {
           />
         ))}
       </View>
+      </ScrollView>
       <Button
         size="md"
         color="#7D0631"
@@ -74,7 +77,8 @@ const Register = () => {
         {" "}
         Criar
       </Button>
-    </ScrollView>
+    
+    </SafeAreaView>
   );
 };
 
@@ -85,6 +89,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FABA66",
     paddingTop: 60,
     paddingBottom: 20,
+  },
+  safeContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 850,
+    backgroundColor: "rgba(250, 186, 102, 1)",
   },
   input: {
     color: "#7D0631",
@@ -122,7 +132,11 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     width: 100,
-    marginTop: 30,
+    borderRadius: 12,
+    backgroundColor: "rgba(125, 6, 49, 0.4)",
+    borderColor: "#7D0631",
+    borderWidth: 2,
+    marginTop: 20,
   },
 });
 

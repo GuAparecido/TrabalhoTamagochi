@@ -319,7 +319,6 @@ const styles = StyleSheet.create({
     fontSize: 34,
     color: "rgba(251, 172, 92, 1)",
     fontWeight: "bold",
-    marginLeft: 54,
   },
   stylesNome: {
     alignItems: "center",

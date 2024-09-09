@@ -12,7 +12,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#A2CCA4",
+        tabBarActiveTintColor: "#ffff",
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#7D3106",
@@ -31,7 +31,7 @@ export default function TabLayout() {
             <FontAwesome
               name="home"
               size={40}
-              color={focused ? "#A2CCA4" : "#FABA66"}
+              color={focused ? "#ffff" : "#FABA66"}
             />
           ),
         }}
@@ -43,7 +43,7 @@ export default function TabLayout() {
             <FontAwesome5
               name="bed"
               size={30}
-              color={focused ? "#A2CCA4" : "#FABA66"}
+              color={focused ? "#ffff" : "#FABA66"}
             />
           ),
         }}
@@ -55,7 +55,7 @@ export default function TabLayout() {
             <Ionicons
               name="game-controller"
               size={40}
-              color={focused ? "#A2CCA4" : "#FABA66"}
+              color={focused ? "#ffff" : "#FABA66"}
             />
           ),
         }}
@@ -67,7 +67,7 @@ export default function TabLayout() {
             <FontAwesome
               name="cutlery"
               size={30}
-              color={focused ? "#A2CCA4" : "#FABA66"}
+              color={focused ? "#ffff" : "#FABA66"}
             />
           ),
         }}

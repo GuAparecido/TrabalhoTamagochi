@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  SafeAreaView,
 } from "react-native";
 import imageUrls from "@/image/imageUrls";
 import { Input, Button } from "@rneui/themed";
@@ -16,6 +15,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import Bars from "@/components/Bars";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ImageSkin {
   skinId: number;
@@ -176,9 +176,7 @@ const Index = () => {
       <Button
         buttonStyle={styles.registerButton}
         onPress={() => router.push("/register")}
-      >
-        Novo
-      </Button>
+      >Novo</Button>
     </SafeAreaView>
   );
 };
@@ -329,7 +327,7 @@ const styles = StyleSheet.create({
   safeContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: 850,
+    height: 805,
     backgroundColor: "rgba(250, 186, 102, 1)",
   },
   container: {
@@ -338,6 +336,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(250, 186, 102, 1)",
   },
   input: {
+    marginTop: 10,
     color: "#7D0631",
   },
   inputContainer: {
@@ -389,6 +388,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(125, 6, 49, 0.4)",
     borderColor: "#7D0631",
     borderWidth: 2,
+    marginBottom: 20,
     marginTop: 20,
   },
   morto: {

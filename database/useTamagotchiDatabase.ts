@@ -17,7 +17,7 @@ export function useTamagotchiDatabase () {
 
     const database = useSQLiteContext();
 
-    async function create(data:Omit<Tamagotchi, 'id' | 'counterFun' | 'counterSleep' | 'counterHunger' | 'counterStatus' | 'dateSleep' | 'dateHunger'>) {
+    async function create(data:Omit<Tamagotchi, 'id' | 'counterFun' | 'counterSleep' | 'counterHunger' | 'counterStatus' | 'dateSleep' | 'dateHunger' | 'dateFun' | 'counterFun'>) {
         const now = new Date();
 
         const dateFormated =  now.toISOString().slice(0, 19).replace('T', ' ');
@@ -133,6 +133,37 @@ export function useTamagotchiDatabase () {
                     const result = await statement.executeAsync({
                         $counterHunger: response.counterHunger+1,
                         $dateHunger: dateFormated,
+                        $id: id
+                    });
+        
+                } catch (error) {
+                    throw error;
+                } finally {
+                    await statement.finalizeAsync();
+                }
+            }
+        }
+    }
+
+    async function updateCounterFun(id: number) {
+
+        const response = await findById(id);
+
+        if(response) {
+            if(response.counterHunger<100){
+
+                const now = new Date();
+
+                const dateFormated =  now.toISOString().slice(0, 19).replace('T', ' ');
+
+                const statement = await database.prepareAsync(`
+                    UPDATE tamagotchi SET counterFun = $counterFun, dateFun = $dateFun WHERE id = $id
+                `);
+        
+                try {
+                    const result = await statement.executeAsync({
+                        $counterFun: response.counterFun+10,
+                        $dateFun: dateFormated,
                         $id: id
                     });
         

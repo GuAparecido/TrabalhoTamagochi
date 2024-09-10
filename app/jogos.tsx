@@ -6,19 +6,17 @@ const jogos = () => {
     return (
         <SafeAreaView style={styles.safeContainer}>
             <ImageBackground 
-                    source={require("@/assets/images/JogoDaVelhaTamagotchi.jpg")}
-                    style={styles.image}>
+                    source={require("@/assets/images/JogoDaVelhaTamagotchi.jpg")}>
                     <Button
                     buttonStyle={styles.jogos}
                     onPress={() => router.push("/jogoDaVelha")}>
                     </Button>
             </ImageBackground>
         <ImageBackground
-            source={require("@/assets/images/imageBackground.jpg")}
-            style={styles.image}
+            source={require("@/assets/images/forca.png")}
         >
             <Button buttonStyle={styles.jogos}
-        onPress={() => router.push("/register")}>FORCA</Button>
+        onPress={() => router.push("/forca")}></Button>
         </ImageBackground>
         </SafeAreaView>
     );
@@ -37,9 +35,8 @@ const styles = StyleSheet.create ({
         width: 400,
         height: 440,
         backgroundColor: 'transparent',
+        borderBottomWidth: 2,
+        borderColor: "#7D3106"
     },
-    image: {
-
-    }
 
 })

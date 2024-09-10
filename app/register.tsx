@@ -1,9 +1,10 @@
-import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Input, Button } from "@rneui/themed";
 import { useState } from "react";
 import imageUrls, { ImageSkin } from "@/image/imageUrls";
 import { useTamagotchiDatabase } from "@/database/useTamagotchiDatabase";
 import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Register = () => {
   const [nickName, setNickName] = useState<string>("");
@@ -67,6 +68,7 @@ const Register = () => {
           />
         ))}
       </View>
+
       </ScrollView>
       <Button
         size="md"
@@ -74,7 +76,6 @@ const Register = () => {
         buttonStyle={styles.registerButton}
         onPress={createTamagotchi}
       >
-        {" "}
         Criar
       </Button>
     
@@ -93,10 +94,11 @@ const styles = StyleSheet.create({
   safeContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: 850,
+    height: 805,
     backgroundColor: "rgba(250, 186, 102, 1)",
   },
   input: {
+    marginTop:10,
     color: "#7D0631",
   },
   inputContainer: {
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     borderColor: "#7D0631",
     borderWidth: 2,
     marginTop: 20,
+    marginBottom:20,
   },
 });
 

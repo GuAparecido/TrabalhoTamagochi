@@ -16,8 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "transparent"
+        "foregroundImage": "./assets/images/TelaDeLoading.png"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"

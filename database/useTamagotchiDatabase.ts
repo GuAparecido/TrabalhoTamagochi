@@ -190,7 +190,7 @@ export function useTamagotchiDatabase () {
         
                 try {
                     const result = await statement.executeAsync({
-                        $counterFun: response.counterFun+10,
+                        $counterFun: (response.counterFun+10 >100) ? 100 : response.counterFun+10,
                         $dateFun: dateFormated,
                         $id: id
                     });

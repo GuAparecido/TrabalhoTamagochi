@@ -27,11 +27,9 @@ const SpeechButton: React.FC<SpeechButtonProps> = ({ onSpeechResults }) => {
   useEffect(() => {
     Voice.onSpeechResults = (event: SpeechResultsEvent) => {
       const text = event.value?.join(" ") ?? "";
-      console.log(text);
       onSpeechResults(text);
     };
-
-    // Cleanup function to remove listeners when the component unmounts
+    
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };

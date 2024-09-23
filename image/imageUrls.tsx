@@ -54,76 +54,76 @@ imageUrls.push({
   urlTama: require('../assets/images/ImagesTama/flamengo.png')
 });
 
-imageUrls.push({
-  skinId: 9,
-  urlImage: require('../assets/images/imageTeams/fluminense.png'),
-  urlTama: require('../assets/images/ImagesTama/fluminense.png')
-});
+// imageUrls.push({
+//   skinId: 9,
+//   urlImage: require('../assets/images/imageTeams/fluminense.png'),
+//   urlTama: require('../assets/images/ImagesTama/fluminense.png')
+// });
 
-imageUrls.push({
-  skinId: 10,
-  urlImage: require('../assets/images/imageTeams/fortaleza.png'),
-  urlTama: require('../assets/images/ImagesTama/fortaleza.png')
-});
+// imageUrls.push({
+//   skinId: 10,
+//   urlImage: require('../assets/images/imageTeams/fortaleza.png'),
+//   urlTama: require('../assets/images/ImagesTama/fortaleza.png')
+// });
 
-imageUrls.push({
-  skinId: 11,
-  urlImage: require('../assets/images/imageTeams/goiais.png'),
-  urlTama: require('../assets/images/ImagesTama/goiais.png')
-});
+// imageUrls.push({
+//   skinId: 11,
+//   urlImage: require('../assets/images/imageTeams/goiais.png'),
+//   urlTama: require('../assets/images/ImagesTama/goiais.png')
+// });
 
-imageUrls.push({
-  skinId: 12,
-  urlImage: require('../assets/images/imageTeams/gremio.png'),
-  urlTama: require('../assets/images/ImagesTama/gremio.png')
-});
+// imageUrls.push({
+//   skinId: 12,
+//   urlImage: require('../assets/images/imageTeams/gremio.png'),
+//   urlTama: require('../assets/images/ImagesTama/gremio.png')
+// });
 
-imageUrls.push({
-  skinId: 13,
-  urlImage: require('../assets/images/imageTeams/internacional.png'),
-  urlTama: require('../assets/images/ImagesTama/internacional.png')
-});
+// imageUrls.push({
+//   skinId: 13,
+//   urlImage: require('../assets/images/imageTeams/internacional.png'),
+//   urlTama: require('../assets/images/ImagesTama/internacional.png')
+// });
 
-imageUrls.push({
-  skinId: 14,
-  urlImage: require('../assets/images/imageTeams/palmeiras.png'),
-  urlTama: require('../assets/images/ImagesTama/palmeiras.png')
-});
+// imageUrls.push({
+//   skinId: 14,
+//   urlImage: require('../assets/images/imageTeams/palmeiras.png'),
+//   urlTama: require('../assets/images/ImagesTama/palmeiras.png')
+// });
 
-imageUrls.push({
-  skinId: 15,
-  urlImage: require('../assets/images/imageTeams/redbull.png'),
-  urlTama: require('../assets/images/ImagesTama/redbull.png')
-});
+// imageUrls.push({
+//   skinId: 15,
+//   urlImage: require('../assets/images/imageTeams/redbull.png'),
+//   urlTama: require('../assets/images/ImagesTama/redbull.png')
+// });
 
-imageUrls.push({
-  skinId: 16,
-  urlImage: require('../assets/images/imageTeams/santos.png'),
-  urlTama: require('../assets/images/ImagesTama/santos.png')
-});
+// imageUrls.push({
+//   skinId: 16,
+//   urlImage: require('../assets/images/imageTeams/santos.png'),
+//   urlTama: require('../assets/images/ImagesTama/santos.png')
+// });
 
-imageUrls.push({
-  skinId: 17,
-  urlImage: require('../assets/images/imageTeams/saopaulo.png'),
-  urlTama: require('../assets/images/ImagesTama/saopaulo.png')
-});
+// imageUrls.push({
+//   skinId: 17,
+//   urlImage: require('../assets/images/imageTeams/saopaulo.png'),
+//   urlTama: require('../assets/images/ImagesTama/saopaulo.png')
+// });
 
-imageUrls.push({
-  skinId: 18,
-  urlImage: require('../assets/images/imageTeams/vasco.png'),
-  urlTama: require('../assets/images/ImagesTama/vasco.png')
-});
+// imageUrls.push({
+//   skinId: 18,
+//   urlImage: require('../assets/images/imageTeams/vasco.png'),
+//   urlTama: require('../assets/images/ImagesTama/vasco.png')
+// });
 
-imageUrls.push({
-  skinId: 19,
-  urlImage: require('../assets/images/imageTeams/america.png'),
-  urlTama: require('../assets/images/ImagesTama/america.png')
-});
+// imageUrls.push({
+//   skinId: 19,
+//   urlImage: require('../assets/images/imageTeams/america.png'),
+//   urlTama: require('../assets/images/ImagesTama/america.png')
+// });
 
-imageUrls.push({
-  skinId: 20,
-  urlImage: require('../assets/images/imageTeams/atleticomineiro.png'),
-  urlTama: require('../assets/images/ImagesTama/atleticomineiro.png')
-});
+// imageUrls.push({
+//   skinId: 20,
+//   urlImage: require('../assets/images/imageTeams/atleticomineiro.png'),
+//   urlTama: require('../assets/images/ImagesTama/atleticomineiro.png')
+// });
 
 export default imageUrls;

@@ -32,6 +32,7 @@ const Index = () => {
 
   async function findTamagochis() {
     await tamagotchiDatabase.calculateAtributes();
+    await tamagotchiDatabase.updateAllCounterStatus();
     try {
       if (search.trim() === "") {
         const response = await tamagotchiDatabase.findAll();

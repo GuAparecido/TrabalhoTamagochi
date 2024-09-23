@@ -35,7 +35,6 @@ export default function ComerScreen() {
     );
 
     if (response) {
-      console.log(response);
       setTamagotchi(response);
     }
   }

@@ -17,7 +17,7 @@ const jogos = () => {
                       })}>
                     </Button>
             </ImageBackground>
-        <ImageBackground
+        <ImageBackground style={{width:350}}
             source={require("@/assets/images/forca.png")}
         >
             <Button buttonStyle={styles.jogos}

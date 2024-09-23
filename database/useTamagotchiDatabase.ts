@@ -114,6 +114,34 @@ export function useTamagotchiDatabase () {
         }
     }
 
+    async function updateAllCounterStatus() {
+
+        const allTamagotchis = await findAll();
+
+        for (const tamagotchi of allTamagotchis) {
+            let newCounterStatus = 0;
+
+            newCounterStatus = tamagotchi.counterFun + tamagotchi.counterHunger + tamagotchi.counterSleep;
+    
+            const statement = await database.prepareAsync(`
+                UPDATE tamagotchi SET counterStatus = $counterStatus WHERE id = $id
+            `);
+    
+            try {
+                await statement.executeAsync({
+                    $counterStatus: newCounterStatus,
+                    $id: tamagotchi.id
+                });
+    
+            } catch (error) {
+                console.log(error);
+            } finally {
+                await statement.finalizeAsync();
+            }
+        }
+    }
+    
+
     async function updateCounterHunger(id: number) {
 
         const response = await findById(id);
@@ -210,15 +238,12 @@ export function useTamagotchiDatabase () {
                         $dateFun: dateFormated
                     });
         
-                    console.log("Atualização bem-sucedida:", result);
                 } catch (error) {
-                    console.error("Erro ao atualizar o banco de dados:", error);
+                    console.error(error);
                 } finally {
                     await statement.finalizeAsync();
                 }
-            } else {
-                console.error("Nenhum registro encontrado com o ID fornecido.");
-            }        
+            }    
         };
     
     }
@@ -258,5 +283,5 @@ export function useTamagotchiDatabase () {
             }
         }
     }
-    return {create, findAll, findBySearch, findById, updateCounterStatus, updateCounterHunger, calculateAtributes, updateCounterSleep, updateCounterFun};
+    return {create, findAll, findBySearch, findById, updateCounterStatus, updateCounterHunger, calculateAtributes, updateCounterSleep, updateCounterFun, updateAllCounterStatus};
 }

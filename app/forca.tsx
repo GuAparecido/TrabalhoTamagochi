@@ -12,8 +12,8 @@ import {
 import { router, useGlobalSearchParams } from "expo-router";
 
 const palavrasAleatorias = [
-  "abacaxi", "banana", "computador", "elefante", "floresta",
-  "girassol", "hamburguer", "internet", "kiwi"
+  "santos", "bahia", "corinthians", "flamengo", "fluminense",
+  "gremio"
 ];
 
 export default function App() {

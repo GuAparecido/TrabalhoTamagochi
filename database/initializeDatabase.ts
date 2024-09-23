@@ -20,15 +20,15 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     //     DELETE FROM tamagotchi;    
     // `);
 
-    const staticDate = '2024-09-23 00:35:03';
+    // const staticDate = '2024-09-23 00:35:03';
 
-    const query = (`
-        UPDATE tamagotchi SET 
-            dateHunger = '${staticDate}',
-            dateSleep = '${staticDate}',
-            dateFun = '${staticDate}';
-    `);
+    // const query = (`
+    //     UPDATE tamagotchi SET 
+    //         dateHunger = '${staticDate}',
+    //         dateSleep = '${staticDate}',
+    //         dateFun = '${staticDate}';
+    // `);
     
-    await database.execAsync(query);
+    // await database.execAsync(query);
     
 }

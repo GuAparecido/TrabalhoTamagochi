@@ -1,11 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { router, useGlobalSearchParams } from "expo-router";
+import {
+  Tamagotchi,
+  useTamagotchiDatabase,
+} from "@/database/useTamagotchiDatabase";
 
 type Tela = 'menu' | 'jogo' | 'Resultado';
 type Jogador = 'X' | 'O' | '' | 'Ninguem';
 
 export default function jogoDaVelha() {
+
+  const idParams = useGlobalSearchParams();
+  const tamagotchiDatabase = useTamagotchiDatabase();
+
   const [tela, setTela] = useState<Tela>('menu');
   const [jogador, setJogador] = useState<Jogador>('');
   const [tabuleiro, setTabuleiro] = useState<Jogador[][]>([["", "", ""], ["", "", ""], ["", "", ""]]);
@@ -52,8 +61,13 @@ export default function jogoDaVelha() {
     setNumeroJogadas(numeroJogadas - 1);
   }
 
-  function finalizarJogo(jogadorVencedor: Jogador) {
+  async function finalizarJogo(jogadorVencedor: Jogador) {
     setVencedor(jogadorVencedor);
+    if(jogadorVencedor != 'Ninguem') {
+      await tamagotchiDatabase.updateCounterFun(
+        Number(idParams.id)
+      );
+    }
     setTela('Resultado');
   }
 
@@ -120,12 +134,6 @@ export default function jogoDaVelha() {
         <TouchableOpacity style={styles.botaoMenu} onPress={() => setTela('menu')}>
           <Text style={styles.botaoMenuTexto}>Jogar novamente</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.botaoMenu} onPress={() => setTela('games')}>
-          <Text style={styles.botaoMenuTexto}>Voltar aos jogos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.botaoMenu} onPress={() => setTela('sair')}>
-          <Text style={styles.botaoMenuTexto}>Sair</Text>
-        </TouchableOpacity>  // Implementar se possível*/}
       </View>
     );
   }

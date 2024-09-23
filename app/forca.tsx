@@ -5,6 +5,11 @@ import HangmanDrawing from "@/components/HangmanDrawing";
 import HangmanWord from "@/components/HangmanWord";
 import SpeechButton from "@/components/SpeechButton";
 import { Button, ButtonGroup } from "@rneui/base";
+import {
+  Tamagotchi,
+  useTamagotchiDatabase,
+} from "@/database/useTamagotchiDatabase";
+import { router, useGlobalSearchParams } from "expo-router";
 
 const palavrasAleatorias = [
   "abacaxi", "banana", "computador", "elefante", "floresta",
@@ -12,17 +17,24 @@ const palavrasAleatorias = [
 ];
 
 export default function App() {
+
+  const idParams = useGlobalSearchParams();
+  const tamagotchiDatabase = useTamagotchiDatabase();
+
   const [pAleatorias, setPAleatorias] = useState(() => palavrasAleatorias[Math.floor(Math.random() * palavrasAleatorias.length)]);
   const [letrasCorretas, setLetrasCorretas] = useState<string[]>([]);
   const [letrasErradas, setLetrasErradas] = useState<string[]>([]);
   const [ganhou, setGanhou] = useState(false);
   const [perdeu, setPerdeu] = useState(false);
 
-  const handleSpeechResults = (text: string) => {
+  const handleSpeechResults = async (text: string) => {
     const guessedWord = text.trim().toLowerCase();
 
     if (pAleatorias === guessedWord) {
-      setGanhou(true); // Atualiza o estado de vitória
+      setGanhou(true); 
+      await tamagotchiDatabase.updateCounterFun(
+        Number(idParams.id)
+      );
     } else {
       setLetrasCorretas((prev) => [...new Set([...prev, ...guessedWord])]);
         setPerdeu(letrasErradas.length + 1 >= 6); // Atualiza o estado de derrota se exceder 6 erros

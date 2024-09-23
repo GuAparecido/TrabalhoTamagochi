@@ -129,7 +129,10 @@ export default function GamesScreen() {
           <Button
             style={styles.icons}
             type="clear"
-            onPress={() => router.push("/jogos")}
+            onPress={() => router.push({
+              pathname: "/jogos",
+              params: { id: tamagotchi.id },
+            })}
           >
             <Ionicons
               name="dice"

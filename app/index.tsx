@@ -97,6 +97,16 @@ const Index = () => {
     }, [search])
   );
 
+  if (!tamagotchis) {
+    return (
+      <SafeAreaView>
+        <View >
+          <Text> Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <Input
@@ -392,44 +402,44 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   morto: {
-    color: "black",
+    color: "rgba(0,0,0,0.8)",
     fontSize: 14,
     fontWeight: "bold",
   },
   critico: {
     paddingTop: 12,
-    color: "darkred",
+    color: "rgba(128,0,0,0.8)",
     fontSize: 14,
     fontWeight: "bold",
   },
   muitoTriste: {
     paddingTop: 12,
-    color: "orange",
+    color: "rgba(255,0,0,0.6)",
     fontSize: 14,
   },
   triste: {
     paddingTop: 12,
-    color: "gold",
+    color: "rgba(120,120,120,1)",
     fontSize: 14,
   },
   ok: {
     paddingTop: 12,
-    color: "green",
+    color: "rgba(250,250,250,1)",
     fontSize: 14,
   },
   bem: {
     paddingTop: 12,
-    color: "blue",
+    color: "rgba(0,255,0,0.8)",
     fontSize: 14,
   },
   muitoBem: {
     paddingTop: 12,
-    color: "purple",
+    color: "rgba(0,128,0,0.8)",
     fontSize: 14,
   },
   indefinido: {
     paddingTop: 12,
-    color: "black",
+    color: "rgba(0,0,0,0)",
     fontSize: 14,
   },
 });

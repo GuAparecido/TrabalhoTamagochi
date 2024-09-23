@@ -258,5 +258,5 @@ export function useTamagotchiDatabase () {
             }
         }
     }
-    return {create, findAll, findBySearch, findById, updateCounterStatus, updateCounterHunger, calculateAtributes, updateCounterSleep};
+    return {create, findAll, findBySearch, findById, updateCounterStatus, updateCounterHunger, calculateAtributes, updateCounterSleep, updateCounterFun};
 }
